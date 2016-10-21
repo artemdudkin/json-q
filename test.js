@@ -1,6 +1,6 @@
 var assert = require('chai').assert;
 
-var {get} = require('./get');
+var {get} = require('./index');
 const {parse, parse_filter} = require('./parser');
 
 
