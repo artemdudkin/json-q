@@ -26,7 +26,7 @@ get(data, "a b[.name=1] c"); //=> [{d:1}]
 
 Returns array all fields from any level of nesting that satisfies selector.
 
-#### Details:
+Details:
 
 - **"a"**   means: get all fields named "a" from all nested level of given object
 - **".a"**  means: get all fields named "a" from first level of given object
