@@ -6,26 +6,21 @@ I am not clever enough to use XPath over objects (using [JSONPath](https://githu
 ## API
 
 ```js
-var {get} = require('json-selector')
-```
+const {get} = require('json-selector');
 
-### `get(object, selector)`
-
-Returns array all fields from any level of nesting that satisfies selector.
-
-```js
-
-var data = {
+get("a b[.name=1] c", {
   a:{
     b:[
       {name:1,c:{d:1}},
       {name:2,c:{d:2}}
     ]
   }
-}
-
-get("a b[.name=1] c", data); //=> [{d:1}]
+}); //=> [{d:1}]
 ```
+
+### `get(object, selector)`
+
+Returns array all fields from any level of nesting that satisfies selector.
 
 #### Details:
 
