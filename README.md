@@ -1,7 +1,7 @@
 # json-selector
 Retrieves values from JSON objects (and JavaScript objects) by css-selector-like query (includes attribute filters and array flattening).
 
-I am not clever enough to use XPath over objects (using [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), so I created more simple query-language.
+I am not clever enough to use XPath over objects (using [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), so I created more simple query-language (inspired by css-selectors).
 
 ## API
 
