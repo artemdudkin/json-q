@@ -24,7 +24,7 @@ get(data, "a b[.name=1] c"); //=> [{d:1}]
 
 ### `get(object, selector)`
 
-Returns array all fields from any level of nesting that satisfies selector.
+Returns array of all fields of _object_ from any level of nesting that satisfies _selector_.
 
 About selectors:
 
