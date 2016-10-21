@@ -1,7 +1,7 @@
 {
   "author": "Artem Dudkin <sheeva@list.ru>",
-  "name": "json-selector",
-  "version": "0.0.1",
+  "name": "json-q",
+  "version": "0.0.2",
   "repository": {
     "type": "git",
     "url": "git://github.com/artemdudkin/json-selector.git"
@@ -11,7 +11,7 @@
     "test": "mocha"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
+    "chai": "^3.5.0"
   },
   "dependencies": {
   },
@@ -21,5 +21,5 @@
     "json",
     "query",
     "search"
-  ],
+  ]
 }
