@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "repository": {
     "type": "git",
-    "url": "git://github.com/artemdudkin/json-selector.git"
+    "url": "git://github.com/artemdudkin/json-q.git"
   },
   "main": "index.js",
   "scripts": {
