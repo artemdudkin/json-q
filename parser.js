@@ -55,7 +55,7 @@ const parse = (str) => {
 }
 
 //returns {left:<left_side>, right:<right_side>, delimiter:<delimiter>}
-//for instance, "a\\=b=c" becomes {left:'a=b', right:'c'}
+//for instance, "a\\=b=c" becomes {left:'a=b', right:'c', delimiter:'='}
 const parse_filter = (str) => {
 	if (typeof str != 'string') str=str+'';
 	let ret = {left:''};
