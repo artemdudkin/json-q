@@ -1,6 +1,7 @@
-//done [.x=op_req] means field of this level, while [x=op_req] means field at any level
-//TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
+//TODO dedup _find_field and _deep_find_field
+//TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO combination of filters: x[y=1][z=2] combined by AND logical operand
+//TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
 //TODO should i add pseudo-classes like :nth-child :only-child :empty etc.?
 
 const {parse, parse_filter} = require('./parser');
