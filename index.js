@@ -2,8 +2,8 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO combination of filters: x[y=1][z=2] combined by AND logical operand
 //TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
-//TODO? should i add [x>25] and custom filter function?
 //TODO? should i add pseudo-classes like :nth-child :only-child :empty etc.?
+//TODO? should i add [x>25] and custom filter function?
 
 const {parse, parse_filter} = require('./parser');
 
