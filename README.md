@@ -28,12 +28,12 @@ Returns array all fields from any level of nesting that satisfies selector.
 
 #### Details:
 
-- "a"   means: get all fields named "a" from all nested level of given object
-- ".a"  means: get all fields named "a" from first level of given object
-- "a.b" means: get field b, that is direct descendant of field a, that can be at any level of given object
-- "a b" means: get field b, that is nested field of field a, that can be at any level of given object
+- **"a"**   means: get all fields named "a" from all nested level of given object
+- **".a"**  means: get all fields named "a" from first level of given object
+- **"a.b"** means: get field b, that is direct descendant of field a, that can be at any level of given object
+- **"a b"** means: get field b, that is nested field of field a, that can be at any level of given object
 
-And you can add filter of any depth at any level like this: "a.b[x.y=23] c"
+And you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 
 Another thing - I consider array as multiple values of field, so you can not address array items by index, i.e.
 ```js
