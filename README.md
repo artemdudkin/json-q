@@ -1,7 +1,7 @@
 # json-q
 Retrieves values from JSON objects (and JavaScript objects) by css-selector-like query (includes attribute filters and array flattening).
 
-_I am not clever enough to use XPath over objects (using [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), while [JSONSelect](https://github.com/lloyd/JSONSelect) looks promising but abadoned; so I created more simple query-language (inspired by css-selectors)._
+_I am not clever enough to use XPath over objects (via [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), while [JSONSelect](https://github.com/lloyd/JSONSelect) looks promising but abadoned; so I created more simple query language (inspired by css-selectors)._
 
 ## Example
 
