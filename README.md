@@ -1,22 +1,26 @@
-# json-selector
+# json-q
 Retrieves values from JSON objects (and JavaScript objects) by css-selector-like query (includes attribute filters and array flattening).
 
 I am not clever enough to use XPath over objects (using [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), so I created more simple query-language (inspired by css-selectors).
 
-## API
+## Example
 
 ```js
-const {get} = require('json-selector');
+const {get} = require('json-q');
 
-get("a b[.name=1] c", {
+const data = {
   a:{
     b:[
       {name:1,c:{d:1}},
       {name:2,c:{d:2}}
     ]
   }
-}); //=> [{d:1}]
+};
+
+get(data, "a b[.name=1] c"); //=> [{d:1}]
 ```
+
+## API
 
 ### `get(object, selector)`
 
