@@ -6,7 +6,7 @@ I am not clever enough to use XPath over objects (using [JSONPath](https://githu
 ## API
 
 ```js
-var get = require('json-selector')
+var {get} = require('json-selector')
 ```
 
 ### `get(object, selector)`
