@@ -1,0 +1,25 @@
+{
+  "author": "Artem Dudkin <sheeva@list.ru>",
+  "name": "json-selector",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/artemdudkin/json-selector.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+  },
+  "dependencies": {
+  },
+  "keywords": [
+    "data binding",
+    "filter",
+    "json",
+    "query",
+    "search"
+  ],
+}
