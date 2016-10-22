@@ -1,4 +1,3 @@
-//TODO dedup _find_field and _deep_find_field
 //TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO combination of filters: x[y=1][z=2] combined by AND logical operand
 //TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
@@ -36,7 +35,7 @@ const _get = (obj, flow) => {
 		ret = obj;
 		while (flow[0]) {
 			if (flow[0].any) {
-				ret = _deep_find_field(ret, flow[0].any);
+				ret = _find_field(ret, flow[0].any, true); //deep find_field
 			} else 
 			if (flow[0].next) {
 				ret = _find_field(ret, flow[0].next);
@@ -108,18 +107,21 @@ const _obj_satisfies_filter = (obj, filter) => {
 	return (complexFieldValue == value);
 }
 
-const _find_field = (obj, fieldName, p) => {
+const _find_field = (obj, fieldName, deep) => {
 	let ret = [];
 	if (obj) {
 		if (obj instanceof Array) {
 			obj.forEach(_itm => {
-				ret = ret.concat(_find_field(_itm, fieldName, p?p:''+' '));
+				ret = ret.concat(_find_field(_itm, fieldName, deep));
 			})
 		} else {
 			if (fieldName==='*') {
 				if (typeof obj == 'object') {
 					ret.push(obj);
-					for (let i in obj) ret.push(obj[i]);
+					for (let i in obj) {
+						ret.push(obj[i]);
+						if (deep) ret = ret.concat(_find_field(obj[i], fieldName, true));
+					}
 				} else {
 					ret.push(obj);
 				}
@@ -131,40 +133,9 @@ const _find_field = (obj, fieldName, p) => {
 						ret.push(obj[fieldName]);
 					}
 				}
-			}
-		}
-	}
-	return ret;
-}
-
-const _deep_find_field = (obj, fieldName, p) => {
-	let ret = [];
-	if (obj) {
-		if (obj instanceof Array) {
-			obj.forEach(_itm => {
-				ret = ret.concat(_deep_find_field(_itm, fieldName, p?p:''+' '));
-			})
-		} else {
-			if (fieldName==='*') {
-				if (typeof obj == 'object') {
-					ret.push(obj);
-					for (let i in obj) {
-						ret.push(obj[i]);
-						ret = ret.concat(_deep_find_field(obj[i], fieldName, p?p:''+' '));
-					}
-				} else {
-					ret.push(obj);
-				}
-			} else {
-				if (obj[fieldName])  {
-					if (obj[fieldName] instanceof Array) {
-						ret = ret.concat(obj[fieldName]);
-					} else {
-						ret.push(obj[fieldName]);
-					}
-				}
-				if (typeof obj == 'object') {
-					for (let i in obj) ret = ret.concat(_deep_find_field(obj[i], fieldName, p?p:''+' '));
+				if (deep && typeof obj == 'object') {
+					for (let i in obj) 
+						ret = ret.concat(_find_field(obj[i], fieldName, true));
 				}
 			}
 		}
