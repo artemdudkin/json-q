@@ -38,8 +38,10 @@ And you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 You can combine filters: **"[.x=23][.y=3]"** means "items heaving x=23 AND y=3"
 
 Another thing - I consider array as multiple values of field, so 
-1. arrays of arrays become flat
-2. you can not address array items by index, i.e.
+
+ 1. arrays of arrays become flat
+ 2. you can not address array items by index, i.e.
+ 
 ```js
 
 var data = {
