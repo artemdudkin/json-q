@@ -1,5 +1,4 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
-//TODO combination of filters: x[y=1][z=2] combined by AND logical operand
 //TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
 //TODO? should i add pseudo-classes like :nth-child :only-child :empty etc.?
 //TODO? should i add [x>25] and custom filter function?
@@ -43,12 +42,14 @@ const _get = (obj, flow) => {
 				ret = []
 			}
 			if (flow[0].filter) {
-				let filtered_ret = []
-				ret.forEach(_itm => {
-					let o = _obj_filter(_itm, flow[0].filter);
-					if (o) filtered_ret = filtered_ret.concat(o);
+				flow[0].filter.forEach(_filter => {
+					let filtered_ret = []
+					ret.forEach(_itm => {
+						let o = _obj_filter(_itm, _filter);
+						if (o) filtered_ret = filtered_ret.concat(o);
+					})
+					ret = filtered_ret;					
 				})
-				ret = filtered_ret;
 			}
 			flow.splice(0, 1);
 		}
