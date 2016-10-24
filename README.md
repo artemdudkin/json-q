@@ -39,7 +39,7 @@ You can combine filters: **"[.x=23][.y=3]"** means "items heaving x=23 AND y=3"
 
 Another thing - I consider array as multiple values of field, so 
 
- 1. arrays of arrays become flat: {a:[[1], [2,3]]} becomes {a:[1, 2, 3]}}
+ 1. arrays of arrays become flat, i.e. {a:[[1], [2,3]]} becomes {a:[1, 2, 3]}}
  
  2. you can not address array items by index, i.e.
  
