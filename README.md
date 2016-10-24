@@ -32,6 +32,7 @@ About selectors:
 - **".a"**  means: get all fields named "a" from first level of given object
 - **"a.b"** means: get field "b", that is direct descendant of field "a", that can be at any level of given object
 - **"a b"** means: get field "b", that is nested field of field "a", that can be at any level of given object
+- **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object
 
 And you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 
