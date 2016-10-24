@@ -16,10 +16,13 @@
   "dependencies": {
   },
   "keywords": [
-    "data binding",
-    "filter",
     "json",
-    "query",
-    "search"
+    "select",
+    "selector",
+    "json select",
+    "json selector",
+    "json query",
+    "json search",
+    "json filter"
   ]
 }
