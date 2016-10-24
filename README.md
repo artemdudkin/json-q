@@ -30,7 +30,6 @@ About selectors:
 
 - **"a"**   means: get all fields named "a" from all nested level of given object
 - **".a"**  means: get all fields named "a" from first level of given object
-- **"a.b"** means: get field "b", that is direct descendant of field "a", that can be at any level of given object
 - **"a b"** means: get field "b", that is nested field of field "a", that can be at any level of given object
 - **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object
 
