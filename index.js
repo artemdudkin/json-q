@@ -63,6 +63,7 @@ const _get = (obj, flow) => {
 	return ret;
 }
 
+//remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
 const _obj_filter = (obj, filter) => {
 	if (!_obj_satisfies_filter(obj, filter)) {
 		return;
