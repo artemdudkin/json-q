@@ -1,6 +1,7 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
+//TODO make it works with browsers (IE9+)
 //TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
-//TODO? should i add pseudo-classes like :nth-child :only-child :empty etc.?
+//TODO? should i add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO? should i add [x>25] and custom filter function?
 
 const { parse, parse_filter } = require('./parser');
@@ -54,7 +55,11 @@ const _get = (obj, flow) => {
 			flow.splice(0, 1);
 		}
 	}
-	return _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
+	ret = _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
+
+	//remove links to original object
+	ret  = JSON.parse(JSON.stringify(ret));
+	return ret;
 }
 
 const _obj_filter = (obj, filter) => {
@@ -85,7 +90,7 @@ const _obj_filter = (obj, filter) => {
 }
 
 //is 'obj' satisfies 'filter' condition
-//(filter can be obky like "a.b.c=d", that means obj.a.b.c = d)
+//(filter can be like this "a.b.c=d", that means obj.a.b.c = d)
 //(if obj.a.b.c returns array (look at _get) then it returns true if it contains filter value)
 const _obj_satisfies_filter = (obj, filter) => {
 
