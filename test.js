@@ -119,7 +119,6 @@ describe('simple get 3 level', function(){
 			}
 		}
 	}
-
 	test_get([
 		["a.b.c", {a:{b:{c:[1,2]}}},            [1,2]          ], 
 		["a.b.c", {a:{b:[ {c:1}, {c:2} ]}},     [1,2]          ], 
@@ -131,7 +130,8 @@ describe('simple get 3 level', function(){
 
 		["a b c", {a:{b:{b:{c:{z:1}}}}},        [{z:1}]        ],
 
-		["a * c", {a:{b:{c:[1,2]},c:3}},        [3,1,2]        ] 
+		["a * c", {a:{b:{c:[1,2]},c:3}},        [3,1,2]        ], //not so good as I expected - there is no way to get "next" level
+		[".a.*.c", {a:{b:{c:[1,2]},c:3}},       [3,1,2]        ]  //not so good as I expected - there is no way to get second level
 	]);
 });
 
@@ -147,7 +147,6 @@ describe('filter', function(){
 			}
 		}
 	}
-
 	let o2 = {
 		a:{
 			x:[
@@ -192,9 +191,7 @@ describe('filter', function(){
 
 });
 
-
 describe('complex get', function(){
-
 	var o2 = {
 		  a:{
 		    b:[
@@ -210,7 +207,6 @@ describe('complex get', function(){
 		    }
 		  }
 	}
-
 	var o1 = {
 		  a:[
 		      {name:1,z:{d:1}},
@@ -223,8 +219,6 @@ describe('complex get', function(){
 		    z:100
 		  }
 		}
-
-		
 	test_get([ 
 		["a[name=1]",     {x:{a:{name:1}}, y:{a:{name:2}}},              [{name:1}]          ], 
 		["x[a.name=1]",   {x:{a:{name:1}}, y:{a:{name:2}}},              [{a:{name:1}}]      ], 
