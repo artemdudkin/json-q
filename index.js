@@ -1,5 +1,6 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO make it works with browsers (IE9+)
+//TODO  JSON.parse(JSON.stringify(ret)) is not good for Dates
 //TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
 //TODO? should i add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO? should i add [x>25] and custom filter function?
