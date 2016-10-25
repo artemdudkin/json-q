@@ -28,10 +28,10 @@ Returns array of all fields of _object_ from any level of nesting that satisfies
 
 About selectors:
 
-- **"a"**   means: get all fields named "a" from all nested level of given object
-- **".a"**  means: get all fields named "a" from first level of given object
-- **"a b"** means: get field "b", that is nested field of field "a", that can be at any level of given object
-- **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object
+- **"a"**   means: get value of all fields named "a" from all nested level of given object
+- **".a"**  means: get value of field named "a" from first level of given object (i.e. object["a"])
+- **"a b"** means: get all values of all fields "b", that are nested of field "a", that can be at any level of given object
+- **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object (i.e. object["a"]["b"])
 
 And you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 
@@ -62,7 +62,7 @@ var data = {
     b:[
       {c:1},
       {c:2}
-    ]
+    ]
   }
 }
 
