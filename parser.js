@@ -1,4 +1,4 @@
-const { operator } = require('./parser_operators');
+const { operator } = require('./filter_operators');
 const operator_keys = Object.keys(operator);
 operator_keys.sort((a,b)=>{return b.length - a.length});
 
