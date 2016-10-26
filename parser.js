@@ -1,12 +1,7 @@
-const _add = ( arr, state) => {
-	let o = {};
-	o[state.next ? 'next' : 'any'] = state.expr ? state.expr : '*';
-	if (state.filter.length() > 0) o.filter = state.filter.getValue();
-	arr.push(o);
-	state.filter = new Filter();
-	state.expr = '';
-	state.next = false;
-}
+const { operator } = require('./parser_operators');
+const operator_keys = Object.keys(operator);
+operator_keys.sort((a,b)=>{return b.length - a.length});
+
 
 function Filter(){
 	this.value= [];
@@ -38,6 +33,16 @@ Filter.prototype.getValue = function() {
 	return ret;
 }
 
+
+const _add = ( arr, state) => {
+	let o = {};
+	o[state.next ? 'next' : 'any'] = state.expr ? state.expr : '*';
+	if (state.filter.length() > 0) o.filter = state.filter.getValue();
+	arr.push(o);
+	state.filter = new Filter();
+	state.expr = '';
+	state.next = false;
+}
 
 //returns array of {<type>:<string>, [filter=<string>]} where <type>=next|any (and 'filter' field is not mandandatory)
 //for instance, "a.b"       becomes [{any:'a'}, {next:'b'}]
@@ -98,19 +103,55 @@ const parse_filter = (str) => {
 	let ret = {left:''};
 	
 	for (let i=0; i < str.length; i++) {
-		if (str[i] == '=' && (i==0 || str[i-1] != '\\' )) {
-			ret.delimiter = "=";
-			ret.right = str.substring(i+1).trim();
+		let op = _is_operator(str, i);
+		if (op) {
+			ret.delimiter = op;
+			ret.right = str.substring(i + 1);
+			ret.left = str.substring(0, i-op.length+1);
 			break;
-		} else {
-			ret.left = ret.left + str[i];
 		}
 	}
-	ret.left = ret.left.replace("\\=", "=").trim();
-	if (ret.right) ret.right = ret.right.replace("\\=", "=");
+	if (!ret.right) ret.left = str;
+
+	ret.left = _replace_escaped_operators(ret.left);
+	if (ret.right) ret.right = _replace_escaped_operators(ret.right);
+
 	return ret;
 }
 
+const _replace_escaped_operators = (str) => {
+	let ret = str.trim();
+	operator_keys.forEach(_itm => {
+		ret = ret.replace("\\"+_itm, _itm);
+	})
+	return ret;
+}
 
+const _is_operator = (str, str_index) => {
+	let ret;
+	for (let i=0; i<operator_keys.length && !ret; i++){
+		let op = _is_operator_word(str, str_index, operator_keys[i]);
+		if (op) ret = operator_keys[i];
+	}
+	return ret;
+}
+
+const _is_operator_word = (str, str_index, word) => {
+	let ret = false;
+	if (str_index>=word.length-1) {
+		let word_index = 0;
+		while (word_index<word.length-1 && str[str_index-word_index] == word[word.length-1-word_index]) word_index++;
+		if (word_index == word.length-1 && str[str_index-word_index] == word[word.length-1-word_index]) {
+			if (str_index==word.length-1) {
+				ret = true;
+			} else {
+				if (str[str_index-1] != '\\' ) {
+					ret = true;
+				}
+			}
+		}
+	}
+	return ret;
+}
 
 module.exports = {parse, parse_filter};
