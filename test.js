@@ -48,6 +48,8 @@ describe('parse', function(){
 
 describe('parse_filter', function(){
 	test2(parse_filter, [
+		[undefined,          {left:""}                                              ],
+		['',                 {left:""}                                              ],
 		["a",                {left:"a"}                                             ], 
 		["=b",               {left:"",    right:'b',   delimiter:'='}               ], 
 		["a=b",              {left:"a",   right:'b',   delimiter:'='}               ], 
@@ -61,8 +63,8 @@ describe('parse_filter', function(){
 
 describe('simple get 0 level', function(){
 	test_get([
-		["",  1,     1      ], 
-		["",  {a:1}, {a:1}  ] 
+		["",  1,     [1]      ], 
+		["",  {a:1}, [{a:1}]  ] 
 	]);
 });
 
@@ -70,7 +72,7 @@ describe('simple get 1 level', function(){
 	test_get([
 		["*",     1,                            [1]                                       ], 
 		["*",     {a:1},                        [{a:1}, 1]                                ], 
-		["*",     {a:{c:1}, b:2},               [{a:{c:1},b:2},{c:1},1,2]                 ], 
+		["*",     {a:{c:1}, b:2},               [{a:{c:1},b:2}, {c:1}, 1, 2]              ], 
 		
 		["a",     1,                            []                                        ], 
 		["a",     {b:1},                        []                                        ], 
@@ -131,6 +133,8 @@ describe('simple get 3 level', function(){
 
 		["a b c", {a:{b:{b:{c:{z:1}}}}},        [{z:1}]        ],
 
+		[".*", {a:1, b:2},                      [{a:1,b:2},1,2]], //not so good as I expected - there is no way to get "next" level
+
 		["a * c", {a:{b:{c:[1,2]},c:3}},        [3,1,2]        ], //not so good as I expected - there is no way to get "next" level
 		[".a.*.c", {a:{b:{c:[1,2]},c:3}},       [3,1,2]        ]  //not so good as I expected - there is no way to get second level
 	]);
@@ -160,6 +164,7 @@ describe('filter', function(){
 		}
 	}
 	test_get([
+		['[]',          {a:1},                      [{a:1},1]                     ],
 		['[a= 1]',      {a:1},                      [{a:1}]                       ],
 		['[a=1= 1\\=1]',{a:"1= 1=1"},               [{a:"1= 1=1"}]                ],
 		['[a\\=1=1]',   {"a=1":1},                  [{"a=1":1}]                   ],
