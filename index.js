@@ -33,7 +33,7 @@ const _get = (obj, flow) => {
 			ret = ret.concat(_get(_itm, flow));
 		})
 	} else {
-		ret = obj;
+		ret = [obj];
 		while (flow[0]) {
 			if (flow[0].any) {
 				ret = _find_field(ret, flow[0].any, true); //deep find_field
@@ -63,9 +63,26 @@ const _get = (obj, flow) => {
 	return ret;
 }
 
+const _have_some_filters = (flow) => {
+	let ret = false;
+	if (flow.filter) {
+		for ( let i=0; i<flow.filter.length && !ret; i++){
+			let filterParsed = parse_filter(flow.filter[i]);
+			if (filterParsed.left) ret = true;
+		}
+	}
+console.log('_have_some_filters => ', ret);
+	return ret;
+}
+
 //remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
 const _obj_filter = (obj, filter) => {
-	if (!_obj_satisfies_filter(obj, filter)) {
+	const filterParsed = parse_filter(filter);
+
+	if (!filterParsed.left) 
+		return obj;
+
+	if (!_obj_satisfies_filter(obj, filterParsed)) {
 		return;
 	} else {
 		return _deep_filter(obj, (_itm, parent, parent_key) => {
@@ -73,14 +90,14 @@ const _obj_filter = (obj, filter) => {
 				let filtered = [];
 				if (!parent) {
 					for (let i=0; i<_itm.length; i++) {
-						if (_obj_satisfies_filter(_itm[i], filter)) filtered.push(_itm[i]);
+						if (_obj_satisfies_filter(_itm[i], filterParsed)) filtered.push(_itm[i]);
 					}
 				} else {
 					//by the way, parent[parent_key] == _itm, _itm is array
 					let saved = parent[parent_key];
 					for (let i=0; i<saved.length; i++) {
 						parent[parent_key] = [saved[i]];
-						if (_obj_satisfies_filter(obj, filter)) filtered.push(saved[i]);
+						if (_obj_satisfies_filter(obj, filterParsed)) filtered.push(saved[i]);
 					}
 					parent[parent_key] = saved;
 				}
@@ -94,12 +111,11 @@ const _obj_filter = (obj, filter) => {
 //is 'obj' satisfies 'filter' condition
 //(filter can be like this "a.b.c=d", that means obj.a.b.c = d)
 //(if obj.a.b.c returns array (look at _get) then it returns true if it contains filter value)
-const _obj_satisfies_filter = (obj, filter) => {
+const _obj_satisfies_filter = (obj, filterParsed) => {
 
-	const f = parse_filter(filter);
-	const complexField = f.left;
-        const value = f.right;
-        const equal = operator[f.delimiter] || function(){};
+	const complexField = filterParsed.left;
+        const value = filterParsed.right;
+        const equal = operator[filterParsed.delimiter] || function(){};
 	
 	let complexFieldValue = get(obj, complexField);
 
