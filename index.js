@@ -1,11 +1,11 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO make it works with browsers (IE9+)
 //TODO  JSON.parse(JSON.stringify(ret)) is not good for Dates
-//TODO add [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] in addition to [attr=value]
 //TODO? should i add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO? should i add [x>25] and custom filter function?
 
 const { parse, parse_filter } = require('./parser');
+const { operator } = require('./parser_operators');
 
 const _dedup = x => {return (x instanceof Array ? x.filter((v, i, a) => a.indexOf(v) === i) : x)} //dedup array
 
@@ -99,20 +99,11 @@ const _obj_satisfies_filter = (obj, filter) => {
 	const f = parse_filter(filter);
 	const complexField = f.left;
         const value = f.right;
+        const equal = operator[f.delimiter] || function(){};
 	
 	let complexFieldValue = get(obj, complexField);
 
-	if (complexFieldValue instanceof Array){
-		let found = false;
-		for (var i in complexFieldValue) {
-			if (complexFieldValue[i] == value) {
-				found = true;
-				break;
-			}
-		}
-		return found;
-	}
-	return (complexFieldValue == value);
+        return equal(complexFieldValue, value);
 }
 
 const _find_field = (obj, fieldName, deep) => {
