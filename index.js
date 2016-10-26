@@ -4,7 +4,8 @@
 //TODO? should i add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO? should i add [x>25] and custom filter function?
 
-const { parse, parse_filter } = require('./parser');
+const { parse } = require('./parse');
+const { parse_filter } = require('./parse_filter');
 const { operator } = require('./filter_operators');
 
 const _dedup = x => {return (x instanceof Array ? x.filter((v, i, a) => a.indexOf(v) === i) : x)} //dedup array
