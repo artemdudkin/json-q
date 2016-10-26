@@ -50,7 +50,7 @@ const operator = {
   },
   //for filter [attr]
   undefined: function(complexFieldValue, value){
-	return (complexFieldValue.length > 0)
+	return (complexFieldValue instanceof Array && complexFieldValue.length > 0 || complexFieldValue);
   }
 }
 
