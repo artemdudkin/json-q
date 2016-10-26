@@ -49,12 +49,13 @@ describe('parse', function(){
 describe('parse_filter', function(){
 	test2(parse_filter, [
 		["a",                {left:"a"}                                             ], 
-		["=b",               {left:"",    right:'b', delimiter:'='}                 ], 
-		["a=b",              {left:"a",   right:'b', delimiter:'='}                 ], 
+		["=b",               {left:"",    right:'b',   delimiter:'='}               ], 
+		["a=b",              {left:"a",   right:'b',   delimiter:'='}               ], 
 		[" x y = b c ",      {left:"x y", right:'b c', delimiter:'='}               ], 
 		["a=b=c",            {left:"a",   right:'b=c', delimiter:'='}               ], 
-		["a\\=b=c",          {left:"a=b", right:'c', delimiter:'='}                 ], 
-		["a=b\\=c",          {left:"a",   right:'b=c', delimiter:'='}               ]
+		["a\\=b=c",          {left:"a=b", right:'c',   delimiter:'='}               ], 
+		["a=b\\=c",          {left:"a",   right:'b=c', delimiter:'='}               ],
+		['a*=b',             {left:"a",   right:'b',   delimiter:'*='}              ]
 	]);
 });
 
@@ -186,9 +187,53 @@ describe('filter', function(){
 		['[a.y.b=1]', o2,                           []                            ],
 		
 		['[.a=1][b=1]', [{a:1, c:{b:1}},{a:1,b:2}], [{a:1, c:{b:1}}]              ],
-		['[a=1][.b=1]', [{a:1, c:{b:1}},{a:1,b:2}], []                            ]				
+		['[a=1][.b=1]', [{a:1, c:{b:1}},{a:1,b:2}], []                            ],
 	]);
+	
+});
 
+describe('filter *=', function(){
+	test_get([
+		['[a*=art]', {a:'2artem'},                  [{a:'2artem'}]                ],
+		['[a*=art]', {a:'xxx'},                     []                            ]
+	]);
+});
+
+describe('filter ^=', function(){
+	test_get([
+		['[a^=art]', {a:'artem'},                   [{a:'artem'}]                 ],
+		['[a^=art]', {a:'2artem'},                  []                            ]
+	]);
+});
+
+describe('filter $=', function(){
+	test_get([
+		['[a$=em]', {a:'artem'},                   [{a:'artem'}]                 ],
+		['[a$=em]', {a:'artem2'},                  []                            ]
+	]);
+});
+
+describe('filter ~=', function(){
+	test_get([
+		['[a~=xxx]', {a:'111 xxx yyy'},             [{a:'111 xxx yyy'}]          ],
+		['[a~=xxx]', {a:'111 xxxyyy'},              []                           ]
+	]);
+});
+
+describe('filter |=', function(){
+	test_get([
+		['[a|=xxx]', {a:'xxx-yyy'},                 [{a:'xxx-yyy'}]              ],
+		['[a|=xxx]', {a:'xxx'},                     [{a:'xxx'}]                  ],
+		['[a|=xxx]', {a:'zxxx'},                    []                           ]
+	]);
+});
+
+describe('filter [attr]', function(){
+	test_get([
+		['[a]',      {a:'a'},                       [{a:'a'}]                    ],
+		['[a]',      [{a:'xxx'}, {b:'b'}],          [{a:'xxx'}]                  ],
+		['[a]',      {b:'b'},                       []                           ]
+	]);
 });
 
 describe('complex get', function(){
