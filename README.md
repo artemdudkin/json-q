@@ -33,9 +33,11 @@ About selectors:
 - **"a b"** means: get all values of all fields "b", that are nested of field "a", that can be at any level of given object
 - **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object (i.e. object["a"]["b"])
 
-And you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
+About filters:
 
-You can combine filters: **"[.x=23][.y=3]"** means "items heaving field x=23 AND field y=3"
+- you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
+- combination of filters **"[.x=23][.y=3]"** means "items heaving field x=23 AND field y=3"
+- you can use [attr] [attr=value] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] [attr=value] - just like CSS attribute filters do
 
 Another thing - I consider array as multiple values of field, so 
 
