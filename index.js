@@ -6,6 +6,7 @@
 //        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
+//TODO move tests to /test
 //TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO config to add/change filters and pseudos
 //TODO make it works with browsers (IE9+)
