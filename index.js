@@ -1,7 +1,8 @@
 //TODO fix difference between wsdl parsed by json-q and by old parser
 //TODO make it works with browsers (IE9+)
 //TODO  JSON.parse(JSON.stringify(ret)) is not good for Dates
-//TODO? should i add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
+//TODO shouldi add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
+//TODO config or plugin system ( for filters and pseudos)
 //TODO? should i add [x>25] and custom filter function?
 
 const { parse } = require('./parse');
