@@ -1,6 +1,5 @@
 //FIX does it really flatten arrays? test [[[[[{a:1}]]]]]
 //FIX more tests for [attr]
-//FIX JSON.parse(JSON.stringify(ret)) is not good for Dates
 //FIX " * " means nothing while ".*" means "get next level of hierarchy" 
 //    i.e ".*.b" of [{b:1}, c:{b:2}] should return [2]
 //        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
@@ -11,6 +10,7 @@
 //TODO make it works with browsers (IE9+)
 //TODO? should i add [x>25] and custom filter function? - looks like make it via pseudos is a good idea
 
+const clone = require('clone');
 const { parse } = require('./parse');
 const { parse_filter } = require('./parse_filter');
 const { operator } = require('./filter_operators');
@@ -66,8 +66,7 @@ const _get = (obj, flow) => {
 	}
 	ret = _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
 
-	//remove links to original object
-	ret  = JSON.parse(JSON.stringify(ret));
+	ret  = clone(ret, false);
 	return ret;
 }
 
