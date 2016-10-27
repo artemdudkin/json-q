@@ -1,9 +1,14 @@
-//TODO fix difference between wsdl parsed by json-q and by old parser
+//FIX does it really flatten arrays? test [[[[[{a:1}]]]]]
+//FIX JSON.parse(JSON.stringify(ret)) is not good for Dates
+//FIX " * " means nothing while ".*" means "get next level of hierarchy" 
+//    i.e ".*.b" of [{b:1}, c:{b:2}] should return [2]
+//        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
+//FIX fix difference between wsdl parsed by json-q and by old parser
+
+//TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
+//TODO config to add/change filters and pseudos
 //TODO make it works with browsers (IE9+)
-//TODO  JSON.parse(JSON.stringify(ret)) is not good for Dates
-//TODO shouldi add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
-//TODO config or plugin system ( for filters and pseudos)
-//TODO? should i add [x>25] and custom filter function?
+//TODO? should i add [x>25] and custom filter function? - looks like make it via pseudos is a good idea
 
 const { parse } = require('./parse');
 const { parse_filter } = require('./parse_filter');
