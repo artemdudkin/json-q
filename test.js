@@ -229,7 +229,7 @@ describe('filter ~=', function(){
 describe('filter |=', function(){
 	test_get([
 		['[a|=xxx]', {a:'xxx-yyy'},                 [{a:'xxx-yyy'}]              ],
-		['[a|=xxx]', {a:'yyy-xxx'},                 [{a:'yyy-xxx'}]              ],
+		['[a|=xxx]', {a:'yyy-xxx'},                 []                           ],
 		['[a|=xxx]', {a:'xxx'},                     [{a:'xxx'}]                  ],
 		['[a|=xxx]', {a:'zxxx'},                    []                           ]
 	]);
