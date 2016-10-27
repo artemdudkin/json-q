@@ -1,4 +1,5 @@
 //FIX does it really flatten arrays? test [[[[[{a:1}]]]]]
+//FIX more tests for [attr]
 //FIX JSON.parse(JSON.stringify(ret)) is not good for Dates
 //FIX " * " means nothing while ".*" means "get next level of hierarchy" 
 //    i.e ".*.b" of [{b:1}, c:{b:2}] should return [2]
