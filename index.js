@@ -1,5 +1,6 @@
 //FIX does it really flatten arrays? test [[[[[{a:1}]]]]]
 //FIX more tests for [attr]
+//FIX _replace_escaped_operators? WTF?
 //FIX " * " means nothing while ".*" means "get next level of hierarchy" 
 //    i.e ".*.b" of [{b:1}, c:{b:2}] should return [2]
 //        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
