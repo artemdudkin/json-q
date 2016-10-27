@@ -44,7 +44,7 @@ const operator = {
 	return _compare(complexFieldValue, value, (a,b)=>{
 		if (typeof a === 'string') {
 			let a_splited = a.split('-');
-			return (a_splited[0] == value);
+			return a_splited.indexOf(b) != -1;
 		}
 	});
   },
