@@ -70,18 +70,6 @@ const _get = (obj, flow) => {
 	return ret;
 }
 
-const _have_some_filters = (flow) => {
-	let ret = false;
-	if (flow.filter) {
-		for ( let i=0; i<flow.filter.length && !ret; i++){
-			let filterParsed = parse_filter(flow.filter[i]);
-			if (filterParsed.left) ret = true;
-		}
-	}
-console.log('_have_some_filters => ', ret);
-	return ret;
-}
-
 //remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
 const _obj_filter = (obj, filter) => {
 	const filterParsed = parse_filter(filter);
