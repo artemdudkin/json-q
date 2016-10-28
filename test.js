@@ -294,6 +294,29 @@ describe('complex get', function(){
 		    z:100
 		  }
 		}
+	var json_query_test = {
+	  grouped_people: {
+	    'enemies': [
+	      {name: 'Evil Steve', country: 'AU'},
+	      {name: 'Betty', country: 'NZ'}
+	    ]
+	  }
+	}		
+	var json_query_test_2 = {
+		grouped_people: {
+			'friends': [
+				{name: 'Steve', country: 'NZ'},
+				{name: 'Jane', country: 'US'},
+				{name: 'Mike', country: 'AU'},
+				{name: 'Mary', country: 'NZ'},
+			],
+			'enemies': [
+				{name: 'Evil Steve', country: 'AU'},
+				{name: 'Betty', country: 'NZ'}
+			]
+		}
+	}
+
 	test_get([ 
 		["a[name=1]",     {x:{a:{name:1}}, y:{a:{name:2}}},              [{name:1}]          ], 
 		["x[a.name=1]",   {x:{a:{name:1}}, y:{a:{name:2}}},              [{a:{name:1}}]      ], 
@@ -307,6 +330,13 @@ describe('complex get', function(){
 		["a[.name=1].z",  o1,                                            [{d:1}]                             ],
 		["a.z[name=1]",   o1,                                            [{name:1, d:3}]                     ],
 		["a.z[name=1] d", o1,                                            [3]                                 ],
-		["a.z[name=2] d", o1,                                            [2,4]                               ]
+		["a.z[name=2] d", o1,                                            [2,4]                               ],
+		
+		["[.country=NZ]", json_query_test,                               [{name: 'Betty', country: 'NZ'}]    ],
+		["grouped_people[country=NZ]", json_query_test_2,                
+			[{
+				friends: [{name: "Steve",country: "NZ"},{name: "Mary",country: "NZ"}],
+				enemies:[{name: "Betty", country: "NZ"}]
+			}]															                                     ]
 	]);
 });

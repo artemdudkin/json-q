@@ -24,8 +24,14 @@ const _deep_filter = (obj, before, after, parent, parent_key) => {
 	let ret = obj;
 	if (typeof obj == 'object') {
 		if (before) ret = before(ret, parent, parent_key);
-		for(let i in ret) {
-			ret[i] = _deep_filter(obj[i], before, after, ret, i);
+		if (ret instanceof Array) {
+			ret = ret.filter((_itm, _index) => {
+				return _deep_filter(_itm, before, after, ret, _index);
+			});
+		} else {
+			for(let i in ret) {
+				ret[i] = _deep_filter(ret[i], before, after, ret, i);
+			}
 		}
 		if (after) ret = after(ret, parent, parent_key);
 	}
@@ -37,7 +43,6 @@ const get = (obj, path) => {
 }
 
 const _get = (obj, flow) => {
-//console.log('flow', flow);
 	flow = Object.assign([], flow);
 	let ret = [];
 	if (obj instanceof Array) {
@@ -85,7 +90,7 @@ const _get = (obj, flow) => {
 }
 
 const _obj_pseudo = (obj, pseudo) => {
-        const func = pseudos[pseudo] || function(){return true};
+	const func = pseudos[pseudo] || function(){return true};
 	if (func(obj)) {
 		return obj;
 	}
@@ -111,11 +116,25 @@ const _obj_filter = (obj, filter) => {
 				} else {
 					//by the way, parent[parent_key] == _itm, _itm is array
 					let saved = parent[parent_key];
+					
+					const parent_backup = (parent instanceof Array ? [] : {});
+					const parent_keys = Object.keys(parent);
+					for (let j in parent) {
+						parent_backup[j] = parent[j];
+						parent[j] = undefined;
+					}
+					
 					for (let i=0; i<saved.length; i++) {
 						parent[parent_key] = [saved[i]];
-						if (_obj_satisfies_filter(obj, filterParsed)) filtered.push(saved[i]);
+						if (_obj_satisfies_filter(obj, filterParsed)) {
+							filtered.push(saved[i]);
+						}
 					}
-					parent[parent_key] = saved;
+					
+					for (let j in parent_backup) {
+						parent[j] = parent_backup[j];
+					}
+					parent[parent_key] = filtered;
 				}
 				_itm = filtered;
 			}
@@ -146,7 +165,7 @@ const _find_field = (obj, fieldName, deep) => {
 				ret = ret.concat(_find_field(_itm, fieldName, deep));
 			})
 		} else {
-			if (fieldName==='*' || fieldName==='') {
+			if (fieldName==='*') {
 				if (typeof obj == 'object') {
 					ret.push(obj);
 					for (let i in obj) {
