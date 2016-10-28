@@ -16,6 +16,7 @@ const clone = require('clone');
 const { parse } = require('./parse');
 const { parse_filter } = require('./parse_filter');
 const { operator } = require('./filter_operators');
+const { pseudos } = require('./filter_pseudos');
 
 const _dedup = x => {return (x instanceof Array ? x.filter((v, i, a) => a.indexOf(v) === i) : x)} //dedup array
 
@@ -36,6 +37,7 @@ const get = (obj, path) => {
 }
 
 const _get = (obj, flow) => {
+//console.log('flow', flow);
 	flow = Object.assign([], flow);
 	let ret = [];
 	if (obj instanceof Array) {
@@ -53,14 +55,24 @@ const _get = (obj, flow) => {
 			} else {
 				ret = []
 			}
-			if (flow[0].filter) {
-				flow[0].filter.forEach(_filter => {
-					let filtered_ret = []
-					ret.forEach(_itm => {
-						let o = _obj_filter(_itm, _filter);
-						if (o) filtered_ret = filtered_ret.concat(o);
-					})
-					ret = filtered_ret;					
+			if (flow[0].transformation) {
+				flow[0].transformation.forEach(_transformation => {
+					if (_transformation.filter) {
+						let filtered_ret = []
+						ret.forEach(_itm => {
+							let o = _obj_filter(_itm, _transformation.filter);
+							if (o) filtered_ret = filtered_ret.concat(o);
+						})
+						ret = filtered_ret;
+					}
+					if (_transformation.pseudo) {
+						let filtered_ret = []
+						ret.forEach(_itm => {
+							let o = _obj_pseudo(_itm, _transformation.pseudo);
+							if (o) filtered_ret = filtered_ret.concat(o);
+						})
+						ret = filtered_ret;
+					}
 				})
 			}
 			flow.splice(0, 1);
@@ -70,6 +82,13 @@ const _get = (obj, flow) => {
 
 	ret  = clone(ret, false);
 	return ret;
+}
+
+const _obj_pseudo = (obj, pseudo) => {
+        const func = pseudos[pseudo] || function(){return true};
+	if (func(obj)) {
+		return obj;
+	}
 }
 
 //remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
@@ -127,7 +146,7 @@ const _find_field = (obj, fieldName, deep) => {
 				ret = ret.concat(_find_field(_itm, fieldName, deep));
 			})
 		} else {
-			if (fieldName==='*') {
+			if (fieldName==='*' || fieldName==='') {
 				if (typeof obj == 'object') {
 					ret.push(obj);
 					for (let i in obj) {
