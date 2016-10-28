@@ -62,22 +62,20 @@ const _get = (obj, flow) => {
 			}
 			if (flow[0].transformation) {
 				flow[0].transformation.forEach(_transformation => {
+					let filtered_ret = []
 					if (_transformation.filter) {
-						let filtered_ret = []
 						ret.forEach(_itm => {
 							let o = _obj_filter(_itm, _transformation.filter);
 							if (o) filtered_ret = filtered_ret.concat(o);
 						})
-						ret = filtered_ret;
 					}
 					if (_transformation.pseudo) {
-						let filtered_ret = []
 						ret.forEach(_itm => {
 							let o = _obj_pseudo(_itm, _transformation.pseudo);
 							if (o) filtered_ret = filtered_ret.concat(o);
 						})
-						ret = filtered_ret;
 					}
+					ret = filtered_ret;
 				})
 			}
 			flow.splice(0, 1);
@@ -149,12 +147,12 @@ const _obj_filter = (obj, filter) => {
 const _obj_satisfies_filter = (obj, filterParsed) => {
 
 	const complexField = filterParsed.left;
-        const value = filterParsed.right;
-        const equal = operator[filterParsed.delimiter] || function(){};
+    const value = filterParsed.right;
+    const equal = operator[filterParsed.delimiter] || function(){};
 	
 	let complexFieldValue = get(obj, complexField);
 
-        return equal(complexFieldValue, value);
+    return equal(complexFieldValue, value);
 }
 
 const _find_field = (obj, fieldName, deep) => {
