@@ -1,7 +1,7 @@
 const { assert } = require('chai');
 
 const { get } = require('./index');
-const { parse } = require('./parse');
+const { parse, Errors } = require('./parse');
 const { parse_filter } = require('./parse_filter');
 
 
@@ -30,21 +30,38 @@ const test_get = (t) => {
 
 describe('parse', function(){
 	test2(parse, [
-		["a",                [{any:"a"}]                                           ], 
-		[".a",               [{next:"a"}]                                          ], 
-		["a  b",             [{any:"a"}, {any:"b"}]                                ], 
-		["a.x b",            [{any:"a"}, {next:"x"}, {any:"b"}]                    ],   
-		["a[ x = 1 ] b",     [{any:"a", filter:["x = 1"]}, {any:"b"}]              ], 
-		["a[x= 1].c b",      [{any:"a", filter:["x= 1"]}, {next:"c"}, {any:"b"}]   ], 
-		["a.c[x=1 ]  b",     [{any:"a"}, {next:"c", filter:["x=1"]}, {any:"b"}]    ], 
-		["a.c[ x.y = 1 ] b", [{any:"a"}, {next:"c", filter:["x.y = 1"]}, {any:"b"}]],
+		["a",                [{any:"a"}]                                                              ], 
+		[".a",               [{next:"a"}]                                                             ], 
+		["a  b",             [{any:"a"}, {any:"b"}]                                                   ], 
+		["a.x b",            [{any:"a"}, {next:"x"}, {any:"b"}]                                       ],   
+		["a[ x = 1 ] b",     [{any:"a", transformation:[{filter:"x = 1"}]}, {any:"b"}]                ], 
+		["a[x= 1].c b",      [{any:"a", transformation:[{filter:"x= 1"}]}, {next:"c"}, {any:"b"}]     ], 
+		["a.c[x=1 ]  b",     [{any:"a"}, {next:"c", transformation:[{filter:"x=1"}]}, {any:"b"}]      ], 
+		["a.c[ x.y = 1 ] b", [{any:"a"}, {next:"c", transformation:[{filter:"x.y = 1"}]}, {any:"b"}]  ],
 
-		["[x=1\\=1]",        [{any:"*", filter:["x=1\\=1"]}]                       ],
-		["\\[x=1\\=1\\]",    [{any:"\\[x=1\\=1\\]"}]                               ],
-		[" a\\ b  ",         [{any:"a\\ b"}]                                       ], 		
+		["[x=1\\=1]",        [{any:"*", transformation:[{filter:"x=1\\=1"}]}]                         ],
+		["\\[x=1\\=1\\]",    [{any:"\\[x=1\\=1\\]"}]                                                  ],
+		[" a\\ b  ",         [{any:"a\\ b"}]                                                          ], 		
 		
-		["[x=1][y=2]",       [{any:"*", filter:["x=1","y=2"]}]                     ]
+		["[x=1][y=2]",       [{any:"*", transformation:[{filter:"x=1"},{filter:"y=2"}]}]              ],
+
+		[":a",               [{any:"*", transformation:[{pseudo:"a"}]}]                               ],
+		[":a:rfg ",          [{any:"*", transformation:[{pseudo:"a"}, {pseudo:"rfg"}]}]               ],
+		["[x=1]:a",          [{any:"*", transformation:[{filter:"x=1"}, {pseudo:"a"}]}]               ]
 	]);
+
+	it('"[x=1]b:a" -> error',function(){
+		assert.throws(()=>{parse("[x=1]b:a")}, Errors.CHARS_AFTER_TRANSFORMATION);
+	});
+	it('"..a" -> error',function(){
+		assert.throws(()=>{parse("..a")}, Errors.DOT_WITHOUT_LEVEL_NAME);
+	});
+	it('"[[" -> error',function(){
+		assert.throws(()=>{parse("[[")}, Errors.FILTER_OPEN_FAIL);
+	});
+	it('"]" -> error',function(){
+		assert.throws(()=>{parse("]")}, Errors.FILTER_CLOSE_FAIL);
+	});
 });
 
 describe('parse_filter', function(){
@@ -141,6 +158,12 @@ describe('simple get 3 level', function(){
 	]);
 });
 
+describe('pseudo', function(){
+	test_get([
+		[':empty',  {a:{b:1}},  [1]   ]
+	]);
+});
+
 describe('filter', function(){
 	let o = {
 		x:{
@@ -165,7 +188,7 @@ describe('filter', function(){
 		}
 	}
 	test_get([
-		['[]',          {a:1},                      [{a:1},1]                     ],
+		['[ ]',         {a:1},                      [{a:1},1]                     ],
 		['[a= 1]',      {a:1},                      [{a:1}]                       ],
 		['[a=1= 1\\=1]',{a:"1= 1=1"},               [{a:"1= 1=1"}]                ],
 		['[a\\=1=1]',   {"a=1":1},                  [{"a=1":1}]                   ],
