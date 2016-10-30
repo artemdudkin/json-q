@@ -31,7 +31,7 @@ About selectors:
 - **"a"**   means: get value of all fields named "a" from all nested level of given object
 - **".a"**  means: get value of field named "a" from first level of given object (i.e. object["a"])
 - **"a b"** means: get all values of all fields "b", that are nested of field "a", that can be at any level of given object
-- **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object (i.e. object["a"]["b"])
+- **".a.b"** means: get field "b", that is direct descendant of field "a" from first level of given object (i.e. object.a.b)
 
 About filters:
 
