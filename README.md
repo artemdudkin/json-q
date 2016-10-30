@@ -37,7 +37,7 @@ About filters:
 
 - you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 - combination of filters **"[.x=23][.y=3]"** means "items heaving field x=23 AND field y=3"
-- you can use [attr] [attr=value] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] [attr=value] - just like CSS attribute filters do
+- you can use [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] [attr=value] - just like CSS attribute filters do
 
 Another thing - I consider array as multiple values of field, so 
 
