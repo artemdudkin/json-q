@@ -61,7 +61,7 @@ const _get = (obj, flow) => {
 			}
 			if (flow[0].transformation) {
 				flow[0].transformation.forEach(_transformation => {
-					let filtered_ret = [obj]
+					let filtered_ret = ret;
 					if (_transformation.filter) {
 						filtered_ret = []
 						ret.forEach(_itm => {
