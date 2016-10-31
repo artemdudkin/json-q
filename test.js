@@ -150,10 +150,10 @@ describe('simple get 3 level', function(){
 		["a b c", {a:{b:{b:{c:1}}}},            [1]            ],
 		["a b c", {a:{b:{b:{c:{z:1}}}}},        [{z:1}]        ],
 
-		[".*", {a:1, b:2},                      [{a:1,b:2},1,2]], //not so good as I expected - there is no way to get "next" level
+		[".*", {a:1, b:2, c:{d:3}},             [1,2,{d:3}]    ],
 
-		["a * c", {a:{b:{c:[1,2]},c:3}},        [3,1,2]        ], //not so good as I expected - there is no way to get "next" level
-		[".a.*.c", {a:{b:{c:[1,2]},c:3}},       [3,1,2]        ]  //not so good as I expected - there is no way to get second level
+		["a * c", {a:{b:{c:[1,2]},c:3}},        [3,1,2]        ],
+		[".a.*.c", {a:{b:{c:[1,2]},c:3}},       [1,2]          ]
 	]);
 });
 
