@@ -1,11 +1,8 @@
 //FIX more tests for [attr]
 //FIX _replace_escaped_operators? WTF?
-//FIX " * " means nothing while ".*" means "get next level of hierarchy" 
-//    i.e ".*.b" of [{b:1}, c:{b:2}] should return [2]
-//        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
+//TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector)
 //TODO config to add/change filters and pseudos
 //TODO move tests to /test
 //TODO make it works with browsers (IE9+)
@@ -167,7 +164,7 @@ const _find_field = (obj, fieldName, deep) => {
 		} else {
 			if (fieldName==='*') {
 				if (typeof obj == 'object') {
-					ret.push(obj);
+					if (deep) ret.push(obj); // ".*" does not include current level (while " *" does)
 					for (let i in obj) {
 						ret.push(obj[i]);
 						if (deep) ret = ret.concat(_find_field(obj[i], fieldName, true));
