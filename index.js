@@ -1,4 +1,3 @@
-//FIX does it really flatten arrays? test [[[[[{a:1}]]]]]
 //FIX more tests for [attr]
 //FIX _replace_escaped_operators? WTF?
 //FIX " * " means nothing while ".*" means "get next level of hierarchy" 
@@ -6,9 +5,9 @@
 //        " * b" of [{b:1}, c:{b:2}] should return [1, 2]
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO move tests to /test
 //TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector) ?
 //TODO config to add/change filters and pseudos
+//TODO move tests to /test
 //TODO make it works with browsers (IE9+)
 //TODO? should i add [x>25] and custom filter function? - looks like make it via pseudos is a good idea
 
@@ -34,7 +33,7 @@ const _deep_filter = (obj, before, after, parent, parent_key) => {
 			}
 		}
 		if (after) ret = after(ret, parent, parent_key);
-	}
+}
 	return ret;
 }
 
@@ -62,14 +61,16 @@ const _get = (obj, flow) => {
 			}
 			if (flow[0].transformation) {
 				flow[0].transformation.forEach(_transformation => {
-					let filtered_ret = []
+					let filtered_ret = [obj]
 					if (_transformation.filter) {
+						filtered_ret = []
 						ret.forEach(_itm => {
 							let o = _obj_filter(_itm, _transformation.filter);
 							if (o) filtered_ret = filtered_ret.concat(o);
 						})
 					}
 					if (_transformation.pseudo) {
+						filtered_ret = []
 						ret.forEach(_itm => {
 							let o = _obj_pseudo(_itm, _transformation.pseudo);
 							if (o) filtered_ret = filtered_ret.concat(o);
@@ -98,8 +99,9 @@ const _obj_pseudo = (obj, pseudo) => {
 const _obj_filter = (obj, filter) => {
 	const filterParsed = parse_filter(filter);
 
-	if (!filterParsed.left) 
+	if (!filterParsed.left) {
 		return obj;
+	}
 
 	if (!_obj_satisfies_filter(obj, filterParsed)) {
 		return;
@@ -136,7 +138,7 @@ const _obj_filter = (obj, filter) => {
 				}
 				_itm = filtered;
 			}
-			return _itm;
+			return _itm
 		});
 	}
 }
