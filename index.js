@@ -2,6 +2,7 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
+//TODO move _dedup and clone to get() from _get()
 //TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector)
 //TODO config to add/change filters and pseudos
 //TODO move tests to /test
