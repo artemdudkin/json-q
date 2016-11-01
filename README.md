@@ -55,8 +55,8 @@ var data = {
   }
 };
 
-get(".a.b.c", data); //=> [1,2]
-get(".a.b.c.0", data); //=> []
+get(data, ".a.b.c"); //=> [1,2]
+get(data, ".a.b.c.0"); //=> []
 
 
 var data = {
@@ -68,7 +68,7 @@ var data = {
   }
 }
 
-get(".a.b.c", data); //=> [1,2] also
+get(data, ".a.b.c"); //=> [1,2] also
 ```
 
 
