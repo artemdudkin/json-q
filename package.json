@@ -1,14 +1,14 @@
 {
   "author": "Artem Dudkin <sheeva@list.ru>",
   "name": "json-q",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "repository": {
     "type": "git",
     "url": "git://github.com/artemdudkin/json-q.git"
   },
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "./node_modules/.bin/mocha tests"
   },
   "devDependencies": {
     "chai": "^3.5.0",

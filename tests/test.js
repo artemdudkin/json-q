@@ -1,8 +1,8 @@
 const { assert } = require('chai');
 
-const { get } = require('./index');
-const { parse, Errors } = require('./parse');
-const { parse_filter } = require('./parse_filter');
+const { get } = require('../index');
+const { parse, Errors } = require('../parse');
+const { parse_filter } = require('../parse_filter');
 
 
 const test2 = (func, t)	=> {
