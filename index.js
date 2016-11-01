@@ -4,7 +4,6 @@
 
 //TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector)
 //TODO config to add/change filters and pseudos
-//TODO move tests to /test
 //TODO make it works with browsers (IE9+)
 //TODO? should i add [x>25] and custom filter function? - looks like make it via pseudos is a good idea
 
