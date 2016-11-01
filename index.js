@@ -2,7 +2,6 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO move _dedup and clone to get() from _get()
 //TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector)
 //TODO config to add/change filters and pseudos
 //TODO move tests to /test
@@ -36,7 +35,8 @@ const _deep_filter = (obj, before, after, parent, parent_key) => {
 }
 
 const get = (obj, path) => {
-	return _get(obj, parse(path));
+	const ret = _get(obj, parse(path));
+	return clone(ret);
 }
 
 const _get = (obj, flow) => {
@@ -80,9 +80,8 @@ const _get = (obj, flow) => {
 			flow.splice(0, 1);
 		}
 	}
-	ret = _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
 
-	ret  = clone(ret, false);
+	ret = _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
 	return ret;
 }
 
