@@ -2,48 +2,28 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO add pseudo-classes like :empty :only-child :first-child :last-child :nth-child(n) :nth-last-child(n) :not(selector)
-//TODO config to add/change filters and pseudos
+//TODO describe pseudos and config (pseudos/filter) @ readme.md
 //TODO make it works with browsers (IE9+)
-//TODO? should i add [x>25] and custom filter function? - looks like make it via pseudos is a good idea
 
 const clone = require('clone');
+const { dedup, deep_filter, flatten } = require('./helper');
 const { parse } = require('./parse');
 const { parse_filter } = require('./parse_filter');
 const { operator } = require('./filter_operators');
-const { pseudos } = require('./filter_pseudos');
+const { pseudo } = require('./filter_pseudos');
 
-const _dedup = x => {return (x instanceof Array ? x.filter((v, i, a) => a.indexOf(v) === i) : x)} //dedup array
 
-const _deep_filter = (obj, before, after, parent, parent_key) => {
-	let ret = obj;
-	if (typeof obj == 'object') {
-		if (before) ret = before(ret, parent, parent_key);
-		if (ret instanceof Array) {
-			ret = ret.filter((_itm, _index) => {
-				return _deep_filter(_itm, before, after, ret, _index);
-			});
-		} else {
-			for(let i in ret) {
-				ret[i] = _deep_filter(ret[i], before, after, ret, i);
-			}
-		}
-		if (after) ret = after(ret, parent, parent_key);
-}
-	return ret;
-}
-
-const get = (obj, path) => {
-	const ret = _get(obj, parse(path));
+const get = (obj, path, opt) => {
+	const ret = _get(obj, parse(path), opt);
 	return clone(ret);
 }
 
-const _get = (obj, flow) => {
+const _get = (obj, flow, opt) => {
 	flow = Object.assign([], flow);
 	let ret = [];
 	if (obj instanceof Array) {
 		obj.forEach(_itm => {
-			ret = ret.concat(_get(_itm, flow));
+			ret = ret.concat(_get(_itm, flow, opt));
 		})
 	} else {
 		ret = [obj];
@@ -62,14 +42,14 @@ const _get = (obj, flow) => {
 					if (_transformation.filter) {
 						filtered_ret = []
 						ret.forEach(_itm => {
-							let o = _obj_filter(_itm, _transformation.filter);
+							let o = _obj_filter(_itm, _transformation.filter, opt);
 							if (o) filtered_ret = filtered_ret.concat(o);
 						})
 					}
 					if (_transformation.pseudo) {
 						filtered_ret = []
 						ret.forEach(_itm => {
-							let o = _obj_pseudo(_itm, _transformation.pseudo);
+							let o = _obj_pseudo(_itm, _transformation.pseudo, opt);
 							if (o) filtered_ret = filtered_ret.concat(o);
 						})
 					}
@@ -80,77 +60,8 @@ const _get = (obj, flow) => {
 		}
 	}
 
-	ret = _dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
+	ret = dedup(ret); //dedup as "a b c" at {a:{b:{b:{c:{z:1}}}}} can return [{z:1}, {z:1}]
 	return ret;
-}
-
-const _obj_pseudo = (obj, pseudo) => {
-	const func = pseudos[pseudo] || function(){return true};
-	if (func(obj)) {
-		return obj;
-	}
-}
-
-//remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
-const _obj_filter = (obj, filter) => {
-	const filterParsed = parse_filter(filter);
-
-	if (!filterParsed.left) {
-		return obj;
-	}
-
-	if (!_obj_satisfies_filter(obj, filterParsed)) {
-		return;
-	} else {
-		return _deep_filter(obj, (_itm, parent, parent_key) => {
-			if (_itm instanceof Array) {
-				let filtered = [];
-				if (!parent) {
-					for (let i=0; i<_itm.length; i++) {
-						if (_obj_satisfies_filter(_itm[i], filterParsed)) filtered.push(_itm[i]);
-					}
-				} else {
-					//by the way, parent[parent_key] == _itm, _itm is array
-					let saved = parent[parent_key];
-					
-					const parent_backup = (parent instanceof Array ? [] : {});
-					const parent_keys = Object.keys(parent);
-					for (let j in parent) {
-						parent_backup[j] = parent[j];
-						parent[j] = undefined;
-					}
-					
-					for (let i=0; i<saved.length; i++) {
-						parent[parent_key] = [saved[i]];
-						if (_obj_satisfies_filter(obj, filterParsed)) {
-							filtered.push(saved[i]);
-						}
-					}
-					
-					for (let j in parent_backup) {
-						parent[j] = parent_backup[j];
-					}
-					parent[parent_key] = filtered;
-				}
-				_itm = filtered;
-			}
-			return _itm
-		});
-	}
-}
-
-//is 'obj' satisfies 'filter' condition
-//(filter can be like this "a.b.c=d", that means obj.a.b.c = d)
-//(if obj.a.b.c returns array (look at _get) then it returns true if it contains filter value)
-const _obj_satisfies_filter = (obj, filterParsed) => {
-
-	const complexField = filterParsed.left;
-    const value = filterParsed.right;
-    const equal = operator[filterParsed.delimiter] || function(){};
-	
-	let complexFieldValue = get(obj, complexField);
-
-    return equal(complexFieldValue, value);
 }
 
 const _find_field = (obj, fieldName, deep) => {
@@ -174,9 +85,9 @@ const _find_field = (obj, fieldName, deep) => {
 			} else {
 				if (obj[fieldName]) {
 					if (obj[fieldName] instanceof Array) {
-						ret = ret.concat(obj[fieldName]);
+						ret = ret.concat(flatten(obj[fieldName]));
 					} else {
-						ret.push(obj[fieldName]);
+						ret.push(flatten(obj[fieldName]));
 					}
 				}
 				if (deep && typeof obj == 'object') {
@@ -189,4 +100,74 @@ const _find_field = (obj, fieldName, deep) => {
 	return ret;
 }
 
-module.exports = {get};
+const _obj_pseudo = (obj, pseudoName, opt) => {
+	let localPseudo = Object.assign({}, pseudo, (opt || {}).pseudo);
+
+	const func = localPseudo[pseudoName] || function(){return true};
+	return func(obj);
+}
+
+//remove items of multiple values (i.e. from arrays) that does not satisfies filter (at any level of nested of object)
+const _obj_filter = (obj, filter, opt) => {
+	const filterParsed = parse_filter(filter, opt);
+
+	if (!filterParsed.left) {
+		return obj;
+	}
+
+	if (!_obj_satisfies_filter(obj, filterParsed, opt)) {
+		return;
+	} else {
+		return deep_filter(obj, (_itm, parent, parent_key) => {
+			if (_itm instanceof Array) {
+				let filtered = [];
+				if (!parent) {
+					for (let i=0; i<_itm.length; i++) {
+						if (_obj_satisfies_filter(_itm[i], filterParsed, opt)) filtered.push(_itm[i]);
+					}
+				} else {
+					//by the way, parent[parent_key] == _itm, _itm is array
+					let saved = parent[parent_key];
+					
+					const parent_backup = (parent instanceof Array ? [] : {});
+					const parent_keys = Object.keys(parent);
+					for (let j in parent) {
+						parent_backup[j] = parent[j];
+						parent[j] = undefined;
+					}
+					
+					for (let i=0; i<saved.length; i++) {
+						parent[parent_key] = [saved[i]];
+						if (_obj_satisfies_filter(obj, filterParsed, opt)) {
+							filtered.push(saved[i]);
+						}
+					}
+					
+					for (let j in parent_backup) {
+						parent[j] = parent_backup[j];
+					}
+					parent[parent_key] = filtered;
+				}
+				_itm = filtered;
+			}
+			return _itm
+		});
+	}
+}
+
+//is 'obj' satisfies 'filter' condition
+//(filter can be like this "a.b.c=d", that means obj.a.b.c = d)
+//(if obj.a.b.c returns array (look at _get) then it returns true if it contains filter value)
+const _obj_satisfies_filter = (obj, filterParsed, opt) => {
+	let localOperator = Object.assign({}, operator, (opt || {}).operator);
+
+	const complexField = filterParsed.left;
+	const value = filterParsed.right;
+	const equal = localOperator[filterParsed.delimiter] || function(){};
+
+	let complexFieldValue = _get(obj, parse(complexField), opt);
+	
+	return equal(complexFieldValue, value);
+}
+
+module.exports = { get };
