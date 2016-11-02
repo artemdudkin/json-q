@@ -1,5 +1,4 @@
-
-const _compare = (complexFieldValue, value, equalFunc) => {
+const isEqualsOverArray = (complexFieldValue, value, equalFunc) => {
 	if (complexFieldValue instanceof Array){
 		let found = false;
 		for (var i in complexFieldValue) {
@@ -12,27 +11,32 @@ const _compare = (complexFieldValue, value, equalFunc) => {
 	}
 	return equalFunc(complexFieldValue, value);
 }
-
+const _eq = isEqualsOverArray;
+//
+//remember that 
+//	1. complexFieldValue is always array
+//	2. value is always string
+//
 const operator = {
   //for filter [atrt=value]
   "=" : function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{return a==b;});
+	return _eq(complexFieldValue, value, (a,b)=>{return a==b;});
   },
   //for filter [atrt*=value]
   "*=": function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.indexOf(b) != -1)});
+	return _eq(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.indexOf(b) != -1)});
   },
   //for filter [atrt^=value]  
   "^=": function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.startsWith(b))});
+	return _eq(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.startsWith(b))});
   },
   //for filter [atrt$=value]  
   "$=": function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.endsWith(b))});
+	return _eq(complexFieldValue, value, (a,b)=>{return (typeof a === 'string' && a.endsWith(b))});
   }, 
   //for filter [attr~=value]  
   "~=": function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{
+	return _eq(complexFieldValue, value, (a,b)=>{
 		if (typeof a === 'string') {
 			let a_splited = a.split(' ');
 			return a_splited.indexOf(b) != -1;
@@ -41,7 +45,7 @@ const operator = {
   }, 
   //for filter [attr|=value]
   "|=": function(complexFieldValue, value){
-	return _compare(complexFieldValue, value, (a,b)=>{
+	return _eq(complexFieldValue, value, (a,b)=>{
 		if (typeof a === 'string') {
 			let a_splited = a.split('-');
 			return (a_splited[0] == value);
@@ -50,9 +54,8 @@ const operator = {
   },
   //for filter [attr]
   undefined: function(complexFieldValue, value){
-//	return (complexFieldValue instanceof Array && complexFieldValue.length > 0 || complexFieldValue);
 	return complexFieldValue.length > 0;
   }
 }
 
-module.exports = { operator };
+module.exports = { operator, isEqualsOverArray };
