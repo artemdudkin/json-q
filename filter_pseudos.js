@@ -1,24 +1,13 @@
+//
+//remember that 
+//	value is always not-array (may be object)
+//
+const pseudo = {
 
-const _filter = (complexFieldValue, filterFunc) => {
-	let ret = [];
-	if (complexFieldValue instanceof Array){
-		let ret = [];
-		return complexFieldValue.filter(_itm => {
-			if (filterFunc(_itm)) ret.push(_itm);
-		})
-		return ret;
-	}
-	return filterFunc(complexFieldValue) ? complexFieldValue : undefined;
-}
-
-const pseudos = {
-
-	"empty" : function(complexFieldValue){
-		return _filter(complexFieldValue, (a)=>{
-			return (typeof a !== 'object')
-		});
+	"empty" : function(value){
+		if (typeof value !== 'object') return value;
 	}
 
 }
 
-module.exports = { pseudos };
+module.exports = { pseudo };
