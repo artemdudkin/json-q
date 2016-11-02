@@ -1,6 +1,7 @@
 {
   "author": "Artem Dudkin <sheeva@list.ru>",
   "name": "json-q",
+  "license" : "MIT",
   "version": "0.0.14",
   "repository": {
     "type": "git",
