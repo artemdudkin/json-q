@@ -1,7 +1,6 @@
 const { assert } = require('chai');
 const { get } = require('../index');
-const { isEqualsOverArray } = require('../filter_operators');
-const { deep_iterate } = require('../helper');
+const { deep_iterate, equals_if_one_of_is_equal } = require('../helper');
 
 const test_get = (t, func) => {
 	func = func || get;
@@ -283,7 +282,7 @@ describe('get with new filter', function(){
 		return get(data, path, {
 			operator : {
 				"!=" : function(complexFieldValue, value){
-					return isEqualsOverArray(complexFieldValue, value, (a,b)=>{return a!=b;});
+					return equals_if_one_of_is_equal(complexFieldValue, value, (a,b)=>{return a!=b;});
 				},
 			}
 		})
@@ -304,13 +303,15 @@ describe('get with new pseudo', function(){
 	const get_with_new_pseudo = (data, path) => {
 		return get(data, path, {
 			pseudo : {
-				"abc" : function(value){
-					deep_iterate(value, (_obj) => {
-						for(var i in _obj) {
-							if (typeof _obj[i] !== 'object') _obj[i] = _obj[i] + 'abc';
-						}
-					});
-					return value;
+				"abc" : function(arrValue){
+					return arrValue.map(value => {
+						deep_iterate(value, (_obj) => {
+							for(var i in _obj) {
+								if (typeof _obj[i] !== 'object') _obj[i] = _obj[i] + 'abc';
+							}
+						});
+						return value;
+					})
 				},
 			}
 		})
