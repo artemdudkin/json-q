@@ -14,8 +14,8 @@ const { pseudo } = require('./filter_pseudos');
 
 
 const get = (obj, path, opt) => {
-	const ret = _get(obj, parse(path), opt);
-	return clone(ret);
+	const ret = _get(clone(obj), parse(path), opt);
+	return ret;
 }
 
 const _get = (obj, flow, opt) => {
