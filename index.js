@@ -1,7 +1,6 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO pseudo should get array of values as param (not one-by-one)
 //TODO describe pseudos and config (pseudos/filter) @ readme.md
 //TODO make it works with browsers (IE9+)
 //TODO thing to calc code coverage
@@ -49,11 +48,7 @@ const _get = (obj, flow, opt) => {
 						})
 					}
 					if (_transformation.pseudo) {
-						filtered_ret = []
-						ret.forEach(_itm => {
-							let o = _obj_pseudo(_itm, _transformation.pseudo, opt);
-							if (o) filtered_ret = filtered_ret.concat(o);
-						})
+						filtered_ret = _obj_pseudo(ret, _transformation.pseudo, opt);
 					}
 					ret = filtered_ret;
 				})
