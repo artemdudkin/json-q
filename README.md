@@ -100,7 +100,7 @@ And pseudo for add "abc" string to all fields names at any level (dont ask me wh
 
 ```js
 var d = [{a:{b:1}}, {a:{c:2}}]
-var p = ""a:abc.cabc"";
+var p = "a:abc.cabc";
 
 get( d, p, {
   pseudo : {
