@@ -40,7 +40,9 @@ About filters:
 - you can use [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] [attr=value] - just like CSS attribute filters do
 
 About pseudos:
+
 - do you remember CSS pseudo-classes? All that :focus, :active, :hover etc.? Pretty useless for objects, even :empty and :first-child, bit it is a good concept to add user-defined (parameterless) functions. 
+- you can add it anywhare: **"a b:empty.c"**
 - look at :empty and see the section about expansions
 
 Another thing - I consider array as multiple values of field, so 
@@ -80,8 +82,12 @@ get(data, ".a.b.c"); //=> [1,2] also
 You can add your pwn filter or pseudo. The difference between them is that filter can only filter (obviously) while pseudo can do anything with intermediate result - i.e. delete, add, change (at any depth) objects at result array.
 
 For instance, new filter for [a!=some value]
+
 ```js
-get( [{a:{name:1}}, {a:{name:2}}], "a[name!=1]", {
+var d = [{a:{name:1}}, {a:{name:2}}]
+var p = "a[name!=1]";
+
+get( d, p, {
   operator : {
     "!=" : function(complexFieldValue, value){
       return equals_if_one_of_is_equal(complexFieldValue, value, (a,b)=>{return a!=b;});
@@ -91,8 +97,12 @@ get( [{a:{name:1}}, {a:{name:2}}], "a[name!=1]", {
 ```
 
 And pseudo for add "abc" string to all fields names at any level (dont ask me why)
+
 ```js
-get( [{a:{b:1}}, {a:{c:2}}], "a:abc cabc", {
+var d = [{a:{b:1}}, {a:{c:2}}]
+var p = ""a:abc.cabc"";
+
+get( d, p, {
   pseudo : {
     "abc" : function(arrValue){
       return arrValue.map(value => {
@@ -110,9 +120,6 @@ get( [{a:{b:1}}, {a:{c:2}}], "a:abc cabc", {
   }
 }); // => [2]
 ```
-
-
-
 
 ## License
 
