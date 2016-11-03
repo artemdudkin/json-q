@@ -1,7 +1,6 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO describe pseudos and config (pseudos/filter) @ readme.md
 //TODO make it works with browsers (IE9+)
 //TODO thing to calc code coverage
 //TODO performance?
