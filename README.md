@@ -22,9 +22,9 @@ get(data, "a b[.name=1] c"); //=> [{d:1}]
 
 ## API
 
-### `get(object, selector)`
+### `get(object, selector, opt)`
 
-Returns array of all fields of _object_ from any level of nesting that satisfies _selector_.
+Returns array of all fields of _object_ from any level of nesting that satisfies _selector_ (with expansions via opt).
 
 About selectors:
 
@@ -38,6 +38,10 @@ About filters:
 - you can add filter of any depth at any level like this: **"a.b[x.y=23] c"**
 - combination of filters **"[.x=23][.y=3]"** means "items heaving field x=23 AND field y=3"
 - you can use [attr] [attr=value] [attr~=value] [attr|=value] [attr^=value] [attr$=value] [attr*=value] [attr=value] - just like CSS attribute filters do
+
+About pseudos:
+- do you remember CSS pseudo-classes? All that :focus, :active, :hover etc.? Pretty useless for objects, even :empty and :first-child, bit it is a good concept to add user-defined (parameterless) functions. 
+- look at :empty and see the section about expansions
 
 Another thing - I consider array as multiple values of field, so 
 
@@ -70,6 +74,44 @@ var data = {
 
 get(data, ".a.b.c"); //=> [1,2] also
 ```
+
+## Expansions (i.e. opt param at get)
+
+You can add your pwn filter or pseudo. The difference between them is that filter can only filter (obviously) while pseudo can do anything with intermediate result - i.e. delete, add, change (at any depth) objects at result array.
+
+For instance, new filter for [a!=some value]
+```js
+get( [{a:{name:1}}, {a:{name:2}}], "a[name!=1]", {
+  operator : {
+    "!=" : function(complexFieldValue, value){
+      return equals_if_one_of_is_equal(complexFieldValue, value, (a,b)=>{return a!=b;});
+    },
+  }
+}); // => [{name:2}]
+```
+
+And pseudo for add "abc" string to all fields names at any level (dont ask me why)
+```js
+get( [{a:{b:1}}, {a:{c:2}}], "a:abc cabc", {
+  pseudo : {
+    "abc" : function(arrValue){
+      return arrValue.map(value => {
+        deep_iterate(value, (_obj) => {
+          for(var i in _obj) {
+            if (typeof _obj[i] !== 'object') {
+              _obj[i+'abc'] = _obj[i];
+              delete _obj[i];
+            }
+          }
+        });
+        return value;
+      })
+    },
+  }
+}); // => [2]
+```
+
+
 
 
 ## License
