@@ -1,21 +1,11 @@
-const isEqualsOverArray = (complexFieldValue, value, equalFunc) => {
-	if (complexFieldValue instanceof Array){
-		let found = false;
-		for (var i in complexFieldValue) {
-			if (equalFunc(complexFieldValue[i], value)) {
-				found = true;
-				break;
-			}
-		}
-		return found;
-	}
-	return equalFunc(complexFieldValue, value);
-}
-const _eq = isEqualsOverArray;
+const { equals_if_one_of_is_equal } = require('./helper');
+const _eq = equals_if_one_of_is_equal;
+
 //
 //remember that 
 //	1. complexFieldValue is always array
 //	2. value is always string
+//	3. operator should return boolean
 //
 const operator = {
   //for filter [atrt=value]
@@ -58,4 +48,4 @@ const operator = {
   }
 }
 
-module.exports = { operator, isEqualsOverArray };
+module.exports = { operator };
