@@ -1,3 +1,8 @@
+/////////////////////////////////////////////////
+//
+// Array functions
+//
+/////////////////////////////////////////////////
 
 const dedup = x => {return (x instanceof Array ? x.filter((v, i, a) => a.indexOf(v) === i) : x)} //dedup array
 
@@ -11,6 +16,27 @@ const flatten = (obj) => {
 	}
 	return ret;
 }
+
+const equals_if_one_of_is_equal = (complexFieldValue, value, equalFunc) => {
+	if (complexFieldValue instanceof Array){
+		let found = false;
+		for (var i in complexFieldValue) {
+			if (equalFunc(complexFieldValue[i], value)) {
+				found = true;
+				break;
+			}
+		}
+		return found;
+	}
+	return equalFunc(complexFieldValue, value);
+}
+
+/////////////////////////////////////////////////
+//
+// Object functions
+//
+/////////////////////////////////////////////////
+
 
 const deep_filter = (obj, before, after, parent, parent_key) => {
 	let ret = obj;
@@ -52,4 +78,4 @@ const deep_sort = (obj, sort_func) => {
 	}
 }
 
-module.exports = { dedup, flatten, deep_filter, deep_iterate, deep_sort };
+module.exports = { dedup, flatten, equals_if_one_of_is_equal, deep_filter, deep_iterate, deep_sort };
