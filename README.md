@@ -79,7 +79,7 @@ get(data, ".a.b.c"); //=> [1,2] also
 
 ## Expansions (i.e. opt param at get)
 
-You can add your pwn filter or pseudo. The difference between them is that filter can only filter (obviously) while pseudo can do anything with intermediate result - i.e. delete, add, change (at any depth) objects at result array.
+You can add your own filter or pseudo. The difference between them is that filter can only filter (obviously) while pseudo can do anything with intermediate result - i.e. delete, add, change (at any depth) objects at result array.
 
 For instance, new filter for [a!=some value]
 
