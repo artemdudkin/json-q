@@ -321,3 +321,30 @@ describe('get with new pseudo', function(){
 		["a:abc b",     [{a:{b:1}}, {a:{c:2}}, {a:{d:3}}],      ['1abc']     ], 
 	], get_with_new_pseudo);
 });
+
+
+describe('get with new pseudo 2', function(){
+	const get_with_new_pseudo = (data, path) => {
+		return get(data, path, {
+			pseudo : {
+				"abc" : function(arrValue){
+					return arrValue.map(value => {
+						deep_iterate(value, (_obj) => {
+							for(var i in _obj) {
+								if (typeof _obj[i] !== 'object') {
+									_obj[i+'abc'] = _obj[i];
+									delete _obj[i];
+								}
+							}
+						});
+						return value;
+					})
+				},
+			}
+		})
+	}
+
+	test_get([ 
+		["a:abc.cabc",     [{a:{b:1}}, {a:{c:2}}, {a:{d:3}}],      [2]     ], 
+	], get_with_new_pseudo);
+});
