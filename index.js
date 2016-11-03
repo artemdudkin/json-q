@@ -103,7 +103,7 @@ const _find_field = (obj, fieldName, deep) => {
 const _obj_pseudo = (obj, pseudoName, opt) => {
 	let localPseudo = Object.assign({}, pseudo, (opt || {}).pseudo);
 
-	const func = localPseudo[pseudoName] || function(){return true};
+	const func = localPseudo[pseudoName] || function(){return obj};
 	return func(obj);
 }
 
