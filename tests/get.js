@@ -294,6 +294,12 @@ describe('get with new filter', function(){
 	], get_with_new_filter);
 });
 
+describe('get with wrong pseudo', function(){
+	test_get([ 
+		["a:abc b",     [{a:{b:1}}, {a:{c:2}}, {a:{d:3}}],      [1]     ], 
+	]);
+});
+
 describe('get with new pseudo', function(){
 	const get_with_new_pseudo = (data, path) => {
 		return get(data, path, {
