@@ -42,7 +42,7 @@ About filters:
 About pseudos:
 
 - do you remember CSS pseudo-classes? All that :focus, :active, :hover etc.? Pretty useless for objects, even :empty and :first-child, bit it is a good concept to add user-defined (parameterless) functions. 
-- you can add it anywhare: **"a b:empty.c"**
+- you can add it anywhere: **"a b:empty.c"**
 - look at :empty and see the section about expansions
 
 Another thing - I consider array as multiple values of field, so 
