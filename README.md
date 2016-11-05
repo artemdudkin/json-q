@@ -25,7 +25,7 @@ get(data, "a b[.name=1] c"); //=> [{d:1}]
 
 ### `get(object, selector, opt)`
 
-Returns array of all fields of _object_ from any level of nesting that satisfies _selector_ (with expansions via opt).
+Returns array of all fields of _object_ from any level of nesting that satisfies _selector_ (with expansions via _opt_).
 
 About selectors:
 
@@ -42,7 +42,7 @@ About filters:
 
 About pseudos:
 
-- do you remember CSS pseudo-classes? All that :focus, :active, :hover etc.? Pretty useless for objects, even :empty and :first-child, bit it is a good concept to add user-defined (parameterless) functions. 
+- do you remember CSS pseudo-classes? All that :focus, :active, :hover etc.? Pretty useless for objects, even :empty and :first-child, but it is a good concept to add user-defined (parameterless) functions. 
 - you can add it anywhere: **"a b:empty.c"**
 - look at :empty and see the section about expansions
 
