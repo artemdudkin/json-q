@@ -17,7 +17,7 @@ const flatten = (obj) => {
 	return ret;
 }
 
-const equals_if_one_of_is_equal = (complexFieldValue, value, equalFunc) => {
+const equals_if_one_of_it_equals = (complexFieldValue, value, equalFunc) => {
 	if (complexFieldValue instanceof Array){
 		let found = false;
 		for (var i in complexFieldValue) {
@@ -78,4 +78,4 @@ const deep_sort = (obj, sort_func) => {
 	}
 }
 
-module.exports = { dedup, flatten, equals_if_one_of_is_equal, deep_filter, deep_iterate, deep_sort };
+module.exports = { dedup, flatten, equals_if_one_of_it_equals, deep_filter, deep_iterate, deep_sort };

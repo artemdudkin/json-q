@@ -15,6 +15,7 @@ const test2 = (func, t)	=> {
 
 describe('parse', function(){
 	test2(parse, [
+		[1,                  [{any:"1"}]                                                              ], 	
 		["a",                [{any:"a"}]                                                              ], 
 		[".a",               [{next:"a"}]                                                             ], 
 		["a  b",             [{any:"a"}, {any:"b"}]                                                   ], 
@@ -32,7 +33,10 @@ describe('parse', function(){
 
 		[":a",               [{any:"*", transformation:[{pseudo:"a"}]}]                               ],
 		[":a:rfg ",          [{any:"*", transformation:[{pseudo:"a"}, {pseudo:"rfg"}]}]               ],
-		["[x=1]:a",          [{any:"*", transformation:[{filter:"x=1"}, {pseudo:"a"}]}]               ]
+		["[x=1]:a",          [{any:"*", transformation:[{filter:"x=1"}, {pseudo:"a"}]}]               ],
+		
+		["[x:1]",            [{any:"*", transformation:[{filter:"x:1"}]}]                             ],		
+		["x:1[y=1]",         [{any:"x", transformation:[{pseudo:"1[y=1]"}]}]                          ]		
 	]);
 
 	it('"[x=1]b:a" -> error',function(){
@@ -53,6 +57,7 @@ describe('parse_filter', function(){
 	test2(parse_filter, [
 		[undefined,          {left:""}                                              ],
 		['',                 {left:""}                                              ],
+		[1,                  {left:"1"}                                             ], 		
 		["a",                {left:"a"}                                             ], 
 		["=b",               {left:"",    right:'b',   delimiter:'='}               ], 
 		["a=b",              {left:"a",   right:'b',   delimiter:'='}               ], 

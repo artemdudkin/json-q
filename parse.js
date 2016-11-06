@@ -20,9 +20,8 @@ State.prototype.filter_start = function(ch){
 	switch (this.state) {
 		case FILTER: 
 			throw new Error(Errors.FILTER_OPEN_FAIL); 
-			break;
 		case PSEUDO: 
-			this.pseudo_char(ch); 
+			this.op_pseudo_char(ch); 
 			break;
 		default:
 			this.state = FILTER;
@@ -35,7 +34,7 @@ State.prototype.filter_end = function(ch){
 			this.state = NONE;
 			break;
 		case PSEUDO: 
-			this.pseudo_char(ch);
+			this.op_pseudo_char(ch);
 			break;
 		default:
 			throw new Error(Errors.FILTER_CLOSE_FAIL);
