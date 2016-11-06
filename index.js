@@ -2,7 +2,7 @@
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
 //TODO make it works with browsers (IE9+)
-//TODO thing to calc code coverage
+//TODO add strings?
 //TODO performance?
 
 const clone = require('clone');
