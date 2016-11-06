@@ -12,13 +12,13 @@ const {get} = require('json-q');
 const data = {
   a:{
     b:[
-      {name:1,c:{d:1}},
-      {name:2,c:{d:2}}
+      {name:'xxx',c:{d:1}},
+      {name:'yyy',c:{d:2}}
     ]
   }
 };
 
-get(data, "a b[.name=1] c"); //=> [{d:1}]
+get(data, "a b[.c.d=1] name"); //=> ['xxx']
 ```
 
 ## API
