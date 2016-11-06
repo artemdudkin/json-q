@@ -1,8 +1,6 @@
 //FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO fix readme to show deep filters at example
-//TODO fix tests to make 100% coverage
 //TODO make it works with browsers (IE9+)
 //TODO add strings?
 //TODO performance?
