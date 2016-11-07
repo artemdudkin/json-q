@@ -97,7 +97,7 @@ get( d, p, {
 }); // => [{name:2}]
 ```
 
-And pseudo for add "abc" string to all fields names at any level (dont ask me why)
+And pseudo for add "abc" string to all fields names at any level (dont ask me what for)
 
 ```js
 var d = [{a:{b:1}}, {a:{c:2}}]
