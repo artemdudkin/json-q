@@ -2,7 +2,7 @@
   "author": "Artem Dudkin <sheeva@list.ru>",
   "name": "json-q",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/artemdudkin/json-q.git"
