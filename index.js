@@ -1,9 +1,7 @@
-//FIX _replace_escaped_operators? WTF?
 //FIX fix difference between wsdl parsed by json-q and by old parser
 
-//TODO rename equals_if_one_of_it_equals to something like true_if_one_of_it_is_true
-//TODO make it works with browsers (IE9+)
-//TODO add strings?
+//TODO make it works with browsers (IE9+) => json-q.min.js, size?
+//TODO add strings? (and remove _replace_escaped_operators)
 //TODO performance?
 
 const clone = require('clone');

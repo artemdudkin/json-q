@@ -17,18 +17,18 @@ const flatten = (obj) => {
 	return ret;
 }
 
-const equals_if_one_of_it_equals = (complexFieldValue, value, equalFunc) => {
+const true_if_one_is_true = (complexFieldValue, value, boolFunc) => {
 	if (complexFieldValue instanceof Array){
 		let found = false;
 		for (var i in complexFieldValue) {
-			if (equalFunc(complexFieldValue[i], value)) {
+			if (boolFunc(complexFieldValue[i], value)) {
 				found = true;
 				break;
 			}
 		}
 		return found;
 	}
-	return equalFunc(complexFieldValue, value);
+	return boolFunc(complexFieldValue, value);
 }
 
 /////////////////////////////////////////////////
@@ -78,4 +78,4 @@ const deep_sort = (obj, sort_func) => {
 	}
 }
 
-module.exports = { dedup, flatten, equals_if_one_of_it_equals, deep_filter, deep_iterate, deep_sort };
+module.exports = { dedup, flatten, true_if_one_is_true, deep_filter, deep_iterate, deep_sort };

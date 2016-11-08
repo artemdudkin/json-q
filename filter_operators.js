@@ -1,5 +1,5 @@
-const { equals_if_one_of_it_equals } = require('./helper');
-const _eq = equals_if_one_of_it_equals;
+const { true_if_one_is_true } = require('./helper');
+const _eq = true_if_one_is_true;
 
 //
 //remember that 

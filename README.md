@@ -93,7 +93,7 @@ var p = "a[name!=1]";
 get( d, p, {
   operator : {
     "!=" : function(complexFieldValue, value){
-      return equals_if_one_of_it_equals(complexFieldValue, value, (a,b)=>{return a!=b;});
+      return true_if_one_is_true(complexFieldValue, value, (a,b)=>{return a!=b;});
     },
   }
 }); // => [{name:2}]

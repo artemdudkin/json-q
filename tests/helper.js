@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { dedup, flatten, equals_if_one_of_it_equals, deep_iterate, deep_sort, deep_filter } = require('../helper');
+const { dedup, flatten, true_if_one_is_true, deep_iterate, deep_sort, deep_filter } = require('../helper');
 
 describe('dedup', function(){
 	it('1 -> 1',function(){
@@ -27,28 +27,28 @@ describe('flatten', function(){
 	});
 });
 
-describe('equals_if_one_of_it_equals', function(){
+describe('true_if_one_is_true', function(){
 	const eq = (a,b)=>{return a===b};
 	
 	it('1 eq 1',function(){
-		const actual = equals_if_one_of_it_equals(1, 1, eq);
+		const actual = true_if_one_is_true(1, 1, eq);
 		assert.deepEqual(actual, true);
 	});
 	
 	it('1 not eq "1"',function(){
-		const actual = equals_if_one_of_it_equals(1, "1", eq);
+		const actual = true_if_one_is_true(1, "1", eq);
 		assert.deepEqual(actual, false);
 	});
 
 	it('[1, 2, 3] eq 2',function(){
 		const o = [1, 2, 3];
-		const actual = equals_if_one_of_it_equals(o, 2, eq);
+		const actual = true_if_one_is_true(o, 2, eq);
 		assert.deepEqual(actual, true);
 	});
 
 	it('[1, 2, 3] not eq 4',function(){
 		const o = [1, 2, 3];
-		const actual = equals_if_one_of_it_equals(o, 4, eq);
+		const actual = true_if_one_is_true(o, 4, eq);
 		assert.deepEqual(actual, false);
 	});
 });

@@ -1,6 +1,6 @@
 const { assert } = require('chai');
 const { get } = require('../index');
-const { deep_iterate, equals_if_one_of_it_equals } = require('../helper');
+const { deep_iterate, true_if_one_is_true } = require('../helper');
 
 const test_get = (t, func) => {
 	func = func || get;
@@ -282,7 +282,7 @@ describe('get with new filter', function(){
 		return get(data, path, {
 			operator : {
 				"!=" : function(complexFieldValue, value){
-					return equals_if_one_of_it_equals(complexFieldValue, value, (a,b)=>{return a!=b;});
+					return true_if_one_is_true(complexFieldValue, value, (a,b)=>{return a!=b;});
 				},
 			}
 		})
