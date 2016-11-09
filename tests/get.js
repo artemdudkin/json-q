@@ -1,6 +1,6 @@
 const { assert } = require('chai');
-const { get } = require('../index');
-const { deep_iterate, true_if_one_is_true } = require('../helper');
+const { get } = require('../lib/index');
+const { deep_iterate, true_if_one_is_true } = require('../lib/helper');
 
 const test_get = (t, func) => {
 	func = func || get;

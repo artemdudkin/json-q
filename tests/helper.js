@@ -1,5 +1,5 @@
 const { assert } = require('chai');
-const { dedup, flatten, true_if_one_is_true, deep_iterate, deep_sort, deep_filter } = require('../helper');
+const { dedup, flatten, true_if_one_is_true, deep_iterate, deep_sort, deep_filter } = require('../lib/helper');
 
 describe('dedup', function(){
 	it('1 -> 1',function(){

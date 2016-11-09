@@ -1,6 +1,6 @@
 const { assert } = require('chai');
-const { parse, Errors } = require('../parse');
-const { parse_filter } = require('../parse_filter');
+const { parse, Errors } = require('../lib/parse');
+const { parse_filter } = require('../lib/parse_filter');
 
 const test2 = (func, t)	=> {
 	t.forEach(_itm => {
