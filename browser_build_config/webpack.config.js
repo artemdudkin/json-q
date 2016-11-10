@@ -1,23 +1,8 @@
 var webpack = require("webpack");
 var path = require("path");
-var fs = require("fs");
 var WebpackOnBuildPlugin = require('on-build-webpack');
 var WebpackBeforeBuildPlugin = require('before-build-webpack');
-
-var rmDir = function(f) {
-	if (fs.existsSync(f)) {
-		var files = fs.readdirSync(f);
-		files && files.forEach(file => {
-			fs.unlinkSync(path.join(f, file));
-		})
-		fs.rmdirSync(f);
-	}
-}
-
-
-
-
-
+var { del_folder, make_folder, del_file, copy_files } = require('./build_helper');
 
 
 module.exports = {
@@ -28,28 +13,30 @@ module.exports = {
     filename: "index.min.js",
     library: "jsonQ"
   },
+  externals:[ function(context, request, callback) {
+	// do not include node.js Buffer lib (which means adding 23k minified lib)
+        // clone() uses it, but can work without it
+	if(/node_modules[\\|\/]buffer/.test(request)) {
+                return callback(null, "{}");
+	}
+	callback();
+  }],
 
   plugins: [
         new WebpackBeforeBuildPlugin(function(compiler, cb) {
-//		//remove index.min.js
-		var file = path.resolve(__dirname, '../index.min.js')
-		if (fs.existsSync(file)) fs.unlinkSync(file);
+		del_file( path.resolve(__dirname, '../index.min.js') );
 
-//		//remove lib dir
-		var to = path.join(__dirname, 'lib');
-		rmDir(to);
-		try{ fs.mkdirSync(to) } catch(e) { if ( e.code != 'EEXIST' ) throw e; }
-
-//		//copy files from ../lib
 		var from = path.resolve(__dirname, '../lib');
-		var files = fs.readdirSync(from);
-	      	files && files.forEach(file => {
-			fs.createReadStream(path.join(from, file)).pipe(fs.createWriteStream(path.join(to, file)));
-		})
+		var to = path.join(__dirname, 'lib');
+
+		del_folder(to);
+		make_folder(to);
+		copy_files(from, to);
+		
 		cb();
 	}),
 	new WebpackOnBuildPlugin(function(stats) {
-		rmDir( path.join(__dirname, 'lib') );
+		del_folder( path.join(__dirname, 'lib') );
 	}),
 
 	new webpack.optimize.UglifyJsPlugin({minimize: true}),
@@ -63,6 +50,7 @@ module.exports = {
 		path.join(__dirname, "./lib"),
 	],
 	query: {
+                plugins: ["transform-object-assign"],
 		presets: ['es2015-loose']
 	}
     }]
