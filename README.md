@@ -124,6 +124,10 @@ get( d, p, {
 }); // => [2]
 ```
 
+## Browser
+
+Please use index.min.js at browser (IE9+ and other modern browsers)
+
 ## License
 
 MIT
