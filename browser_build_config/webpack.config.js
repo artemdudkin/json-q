@@ -31,9 +31,9 @@ module.exports = {
 
 		del_folder(to);
 		make_folder(to);
-		copy_files(from, to);
+		copy_files(from, to, cb);
 		
-		cb();
+//		cb();
 	}),
 	new WebpackOnBuildPlugin(function(stats) {
 		del_folder( path.join(__dirname, 'lib') );
