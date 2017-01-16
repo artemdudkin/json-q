@@ -348,3 +348,20 @@ describe('get with new pseudo 2', function(){
 		["a:abc.cabc",     [{a:{b:1}}, {a:{c:2}}, {a:{d:3}}],      [2]     ], 
 	], get_with_new_pseudo);
 });
+
+describe('real life example', function(){
+	const x = {
+	            "wsdl:port" : [{
+	                "$":{"binding":"tns:ClientSessionCgServiceImplServiceSoapBinding", "name":"ClientSessionCgServiceImplPort"},
+	                "soap:address":[{
+	                    "$":{"location":"http://localhost:8080/bh/sfs/ClientSessionService"}
+	                }]
+	            }]
+	};
+        const expected = ["tns:ClientSessionCgServiceImplServiceSoapBinding"];
+
+	it('"wsdl\\:port binding" of x -> ' + JSON.stringify(expected).replace(/\n/g, ' '),function(){
+		let actual = get(x, "wsdl\\:port binding");
+		assert.deepEqual(actual, expected);
+	});
+});
