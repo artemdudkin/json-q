@@ -2,7 +2,7 @@
 
 Retrieves values from JSON objects (and JavaScript objects) by css-selector-like query (includes attribute filters and array flattening).
 
-[![Coverage Status](https://coveralls.io/repos/github/artemdudkin/json-q/badge.svg?branch=master)](https://coveralls.io/github/artemdudkin/json-q?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/artemdudkin/json-q/badge.svg?branch=master)](https://coveralls.io/github/artemdudkin/json-q?branch=master) [![Build Status](https://api.travis-ci.org/artemdudkin/json-q.svg?branch=master)](https://api.travis-ci.org/artemdudkin/json-q.svg?branch=master)
 
 _I am not clever enough to use XPath over objects (via [JSONPath](https://github.com/s3u/JSONPath), [ObjectPath](http://objectpath.org/) or [DefiantJs](http://defiantjs.com/)), while I like CSS selectors. [JSONSelect](https://github.com/lloyd/JSONSelect) looks abandoned, [json-query](https://github.com/mmckegg/json-query) looks overcomplicated; so I created more simple query language (inspired by CSS attribute selectors)._
 
