@@ -26,8 +26,8 @@ describe('parse', function(){
 		["a.c[ x.y = 1 ] b", [{any:"a"}, {next:"c", transformation:[{filter:"x.y = 1"}]}, {any:"b"}]  ],
 
 		["[x=1\\=1]",        [{any:"*", transformation:[{filter:"x=1\\=1"}]}]                         ],
-		["\\[x=1\\=1\\]",    [{any:"\\[x=1\\=1\\]"}]                                                  ],
-		[" a\\ b  ",         [{any:"a\\ b"}]                                                          ], 		
+		["\\[x=1\\=1\\]",    [{any:"[x=1=1]"}]                                                        ],
+		[" a\\ b  ",         [{any:"a b"}]                                                            ], 		
 		
 		["[x=1][y=2]",       [{any:"*", transformation:[{filter:"x=1"},{filter:"y=2"}]}]              ],
 
