@@ -294,9 +294,18 @@ describe('get with new filter', function(){
 });
 
 describe('get with wrong pseudo', function(){
-	test_get([ 
-		["a:abc b",     [{a:{b:1}}, {a:{c:2}}, {a:{d:3}}],      [1]     ], 
-	]);
+	const x = {
+		"a:b":"xyz"
+	}
+
+	it('"a:b -> exception',function(){
+		assert.throws(function(){get(x, "a:b")}, Error);
+	})
+
+	it('"a\\\\:b -> xyz',function(){
+		var actual = get(x, "a\\:b");
+		assert.deepEqual(actual, ["xyz"]);
+	});
 });
 
 describe('get with new pseudo', function(){
