@@ -1,5 +1,7 @@
 {
-  "scripts": {},
+  "scripts": {
+    "build": "webpack --progress"
+  },
   "devDependencies": {
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.7",
@@ -11,5 +13,7 @@
     "on-build-webpack": "^0.1.0",
     "webpack": "^1.13.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "babel-runtime": "^6.23.0"
+  }
 }

@@ -16,7 +16,7 @@ module.exports = {
   externals:[ function(context, request, callback) {
 	// do not include node.js Buffer lib (which means adding 23k minified lib)
         // clone() uses it, but can work without it
-	if(/node_modules[\\|\/]buffer/.test(request)) {
+	if(/buffer/.test(request)) {
                 return callback(null, "{}");
 	}
 	callback();
@@ -51,7 +51,7 @@ module.exports = {
 	],
 	query: {
                 plugins: ["transform-object-assign"],
-		presets: ['es2015-loose']
+		presets: ['es2015']
 	}
     }]
   }
