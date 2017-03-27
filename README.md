@@ -82,7 +82,7 @@ get(data, ".a.b.c"); //=> [1,2] also
 
 ## Escaping Special Characters
 
-There are no strings now. So if you have special symbols at field names then you should escape it - i mean dot(.), colon(:) and space( ) symbols. 
+There are no strings now. So if you have special symbols at field names then you should escape it - I mean dot, colon, square brackets and space symbols (i.e. " .:[]"). 
 
 ```js
 
