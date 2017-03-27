@@ -80,6 +80,23 @@ var data = {
 get(data, ".a.b.c"); //=> [1,2] also
 ```
 
+## Escaping Special Characters
+
+There is no strings now. So if you have special symbols at field names then you you should escape it - i mean dot(.), colon(:) and space( ) symbols. 
+
+```js
+
+var data = {
+  "a:c":{
+      x:[1,2]
+  }
+};
+
+get(data, "a:c"); //=> Error "Pseudo 'c' not found."
+get(data, "a:\\c"); //=> [1, 2]
+
+```
+
 ## Expansions (i.e. opt param at get)
 
 You can add your own filter or pseudo (or re-define existing one). The difference between them is that filter can only filter (obviously) while pseudo can do anything with intermediate result - i.e. delete, add, change (at any depth) objects at result array.
