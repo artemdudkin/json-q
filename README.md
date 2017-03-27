@@ -93,7 +93,7 @@ var data = {
 };
 
 get(data, "a:c"); //=> Error "Pseudo 'c' not found."
-get(data, "a:\\c"); //=> [1, 2]
+get(data, "a:\\c"); //=> {x:[1, 2]}
 
 ```
 
