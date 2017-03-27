@@ -2,6 +2,8 @@ cannot add filter after pseudo (while can add pseudo after filter)
 get({ "a[c]":1 }, "a[c]")) returns [] silently -> should return 'illegal filter'
 "a[c" does not produce error 'filter not closed'
 
+test it in browsers (especially IE)
+
 ? AMD support?
 ? add strings? (and remove _replace_escaped_operators)
 ? performance?
