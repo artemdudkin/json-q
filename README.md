@@ -82,7 +82,7 @@ get(data, ".a.b.c"); //=> [1,2] also
 
 ## Escaping Special Characters
 
-There are no strings now. So if you have special symbols at field names then you you should escape it - i mean dot(.), colon(:) and space( ) symbols. 
+There are no strings now. So if you have special symbols at field names then you should escape it - i mean dot(.), colon(:) and space( ) symbols. 
 
 ```js
 
@@ -93,7 +93,7 @@ var data = {
 };
 
 get(data, "a:c"); //=> Error "Pseudo 'c' not found."
-get(data, "a:\\c"); //=> {x:[1, 2]}
+get(data, "a\\:c"); //=> {x:[1, 2]}
 
 ```
 
