@@ -374,3 +374,20 @@ describe('real life example', function(){
 		assert.deepEqual(actual, expected);
 	});
 });
+
+/*
+describe('simple circular link', function(){
+	const x = {
+	            "a": {
+			"x":1,
+			"y":2,
+		}
+	};
+	x.a.z = x.a;
+
+	it('"a x" of x -> 1',function(){
+		let actual = get(x, "x a");
+		assert.deepEqual(actual, 1);
+	});
+});
+*/
