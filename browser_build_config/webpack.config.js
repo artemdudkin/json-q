@@ -1,6 +1,5 @@
 var webpack = require("webpack");
 var path = require("path");
-var WebpackOnBuildPlugin = require('on-build-webpack');
 var WebpackBeforeBuildPlugin = require('before-build-webpack');
 var { del_folder, make_folder, del_file, copy_files } = require('./build_helper');
 
@@ -28,18 +27,17 @@ module.exports = {
 
 		var from = path.resolve(__dirname, '../lib');
 		var to = path.join(__dirname, 'lib');
-
 		del_folder(to);
 		make_folder(to);
 		copy_files(from, to, cb);
-		
+
 //		cb();
 	}),
-	new WebpackOnBuildPlugin(function(stats) {
+	new WebpackBeforeBuildPlugin(function(stats, cb) {
 		del_folder( path.join(__dirname, 'lib') );
-	}),
+		cb();
+	}, ['done'])
 
-	new webpack.optimize.UglifyJsPlugin({minimize: true}),
   ],
   
   module: {
