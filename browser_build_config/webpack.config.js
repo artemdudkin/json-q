@@ -36,8 +36,9 @@ module.exports = {
 	new WebpackBeforeBuildPlugin(function(stats, cb) {
 		del_folder( path.join(__dirname, 'lib') );
 		cb();
-	}, ['done'])
+	}, ['done']),
 
+	new webpack.optimize.UglifyJsPlugin({minimize: true})
   ],
   
   module: {
