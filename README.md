@@ -20,7 +20,7 @@ const data = {
   }
 };
 
-get(data, "a b[.c.d=1] name"); //=> ['xxx']
+get(data, "a b[.c.d=2] name"); //=> ['yyy']
 ```
 
 ## API
